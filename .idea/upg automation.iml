@@ -7,6 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/venv" />
       <excludeFolder url="file://$MODULE_DIR$/upgvirenv102" />
       <excludeFolder url="file://$MODULE_DIR$/upgvirenv1" />
+      <excludeFolder url="file://$MODULE_DIR$/upgvirenv2" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.12 (upg automation)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

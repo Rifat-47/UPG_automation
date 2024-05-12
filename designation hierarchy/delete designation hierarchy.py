@@ -1,3 +1,5 @@
+"""delete all designation hierarchy of a cohort in a program"""
+
 import requests
 import json
 

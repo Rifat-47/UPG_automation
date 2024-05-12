@@ -1,3 +1,6 @@
+"""add designation hierarchy from one program to another program"""
+"""parent and child programs are hard-coded here, need to change info while working with other program & cohorts"""
+
 import requests
 import json
 
@@ -23,7 +26,8 @@ if login_json.status_code == 200:
     # hierarchy_info_length & success compare & check if all data loaded successfully
     hierarchy_info_length = len(hierarchy_info['resultset'])
     success = 0
-    # need to update cohort_id & program_id
+
+    """need to update cohort_id & program_id"""
     for single_hierarchy in hierarchy_info['resultset']:
         data = [{
             'cohort_id': "f1bd41d6-1bbe-4622-8b5d-d4598471ed59", # upg rural-2024 = cohort id: f1bd41d6-1bbe-4622-8b5d-d4598471ed59

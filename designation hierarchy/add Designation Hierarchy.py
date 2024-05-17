@@ -1,3 +1,7 @@
+"""add designation hierarchy from one program to another program"""
+"""Just select the program and cohort of source program and target program, you are good to go"""
+"""Remember, Parent refers to source program and child refers to target program"""
+
 import requests
 import json
 import sys

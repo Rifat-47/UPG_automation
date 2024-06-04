@@ -1,0 +1,100 @@
+Master Data Management
+    - Programme Configuration
+    - Cohort Creation
+    - GEO Location Management
+    - User Management
+        - UserList
+
+Operation Management
+    - Project Office Management
+        - Zone & District Mapping
+        - Branch & Upazila Mapping
+        - Zone, Region & Branch Upload
+        - Catchment Area Setup
+    - Project Office Migration
+        - Region Migration
+        - Branch Migration
+    - Staff Management
+        - Designation Management
+        - [[Designation Hierarchy]]
+        - [[Supervision Hierarchy]]
+        - [[Access Control Management]]
+Cohort Configuration
+    - Group Visit
+        - [[Topic Setup]]
+        - Follow up Questionnaire Config
+        - Create Group Visit
+    - Home Visit
+        - SWOT Configuration
+        - Steps Configuration
+        - Step Question Configuration
+        - Graduation Configuration
+        - Material & Home Visit Mapping
+    - VSSC
+        - Committee Formation
+        - Meeting Activity Management
+    - Approval
+        - Approval Hierarchy Configuration
+    - Group Setup
+    - Asset Setup
+    - Enterprise Category
+    - Enterprise Setup
+    - Enterprise Mapping
+    - [[Material Setup]]
+    - Training Setup
+    - Input Category
+    - Input Setup
+    - Asset & Input Mapping
+    - Pre Requisite Setup
+    - Selection Criteria
+    - Reason Type
+    - Reason
+    - Exclusion
+    - Support Item
+    - Wealth Rank
+    - Form Menu Mapping
+    - Asset Wise Growth Form
+Form Configuration
+    - Form List
+Report
+    - Enterprise Selection Report
+    - Miscellaneous
+        - Data for AOP
+    - Enterprise Growth Report
+    - Asset Growth Report
+    - Training Report
+    - FGD/PRA Report
+    - Exclusion Report
+    - Asset Transfer Report
+    - Asset Transfer By Group Report
+    - Asset Transfer Summary Report
+    - Diversification Report
+    - Special Report
+    - VSSC Report
+    - Health Care Report
+    - Graduation Report (Group 2 & 3)
+    - Graduation Report (Group 1)
+    - SSNP Report
+    - Poultry Rearing Report
+    - Survey Report
+    - Baseline Survey Report
+Participant Profile Management
+    - Pariticipant Profile
+    - Migration
+        - Branch to Branch
+Supervision & Followup
+    - Supervision Checklist Field Setup
+    - Supervision Checklist HO
+        - Field Data
+        - Action Plan
+        - Team Action Plan
+    - Role Wise Action Plan Setup
+    - Action Plan Type Setup
+Data Correction Management
+    - Data Correction
+Approval
+    - Send Approval Request
+Audit Trail Management
+    - Audit Trail
+
+

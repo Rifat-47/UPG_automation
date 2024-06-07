@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c45f0bb5-0151-4184-aa85-2a0f69cb7ad5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Followup Questionnaire Config/followup questionnaire.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/approval hierarchy config/approval hierarchy.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extra/file_upload.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extra/xcel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/group visit topic setup/group visit topic setup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/info.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/material setup/material setup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/material setup/optimized material setup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/supervision hierarchy/Supervision Hierarchy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/create vo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swot configuration/swot config mapping.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,13 +33,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.followup questionnaire.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;RifatHomeDevice&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.access control.executor": "Run",
+    "Python.create vo.executor": "Run",
+    "Python.followup questionnaire.executor": "Run",
+    "Python.optimized swot config mapping.executor": "Run",
+    "Python.swot config mapping.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "RifatHomeDevice"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

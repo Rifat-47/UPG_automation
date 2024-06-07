@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c45f0bb5-0151-4184-aa85-2a0f69cb7ad5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/create vo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swot configuration/swot config mapping.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swot configuration/swot config mapping.py" beforeDir="false" afterPath="$PROJECT_DIR$/swot configuration/swot config mapping.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +39,7 @@
     "Python.followup questionnaire.executor": "Run",
     "Python.optimized swot config mapping.executor": "Run",
     "Python.swot config mapping.executor": "Run",
+    "Python.swot name add.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "RifatHomeDevice"
   }

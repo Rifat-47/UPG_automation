@@ -5,8 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c45f0bb5-0151-4184-aa85-2a0f69cb7ad5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/asset &amp; input mapping/asset &amp; input mapping.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/asset wise growth form/asset wise growth form.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/enterprise mapping/enterprise mapping.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/enterprise setup/enterprise setup.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extra.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/home visit - step question config/steps question config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/input category/input category.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/input setup/input setup.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reason setup/reason setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swot configuration/swot config mapping.py" beforeDir="false" afterPath="$PROJECT_DIR$/swot configuration/swot config mapping.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/create vo.py" beforeDir="false" afterPath="$PROJECT_DIR$/create vo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/info.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,9 +45,17 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.access control.executor": "Run",
+    "Python.asset & input mapping.executor": "Run",
+    "Python.asset wise growth form.executor": "Run",
+    "Python.create vo 2.executor": "Run",
     "Python.create vo.executor": "Run",
+    "Python.extra.executor": "Run",
     "Python.followup questionnaire.executor": "Run",
+    "Python.input category.executor": "Run",
+    "Python.input setup.executor": "Run",
     "Python.optimized swot config mapping.executor": "Run",
+    "Python.reason setup.executor": "Run",
+    "Python.steps question config.executor": "Run",
     "Python.swot config mapping.executor": "Run",
     "Python.swot name add.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",

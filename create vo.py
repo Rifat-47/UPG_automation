@@ -1,15 +1,22 @@
 import random
 import string
 
-branch_codes = [
-    "10023", "10024", "10025", "10026", "10027", "10028", "10029",
-    "10030", "10031", "10032", "10032", "10033", "10034", "5668",
-    "8259", "10035", "10036", "9063", "10037"
-]
+# branch_codes = [
+#     "10023", "10024", "10025", "10026", "10027", "10028", "10029",
+#     "10030", "10031", "10032", "10032", "10033", "10034", "5668",
+#     "8259", "10035", "10036", "9063", "10037"
+# ]
 
-random_vo_no = 5252
-total_vo = 2
-member_in_vo = 5
+# branch_codes = ['0320', '0264', '0257', '1459', '0569', '0513',
+#                 '0441', '0424', '2037', '0309', '0328', '0224',
+#                 '3010', '4508', '4816', '0249', '9002', '9146',
+#                 '10038', '10039', '9255', '9179']
+
+branch_codes = ['9367']
+
+random_vo_no = 9001
+total_vo = 1
+member_in_vo = 10
 
 def generate_random_name(length=5):
     letters = string.ascii_uppercase
@@ -32,7 +39,7 @@ for branch_code in branch_codes:
         random_vo_no += 1
 
 
-# for query in queries:
-    # print(query)
+for query in queries:
+    print(query)
 
 print(len(queries))

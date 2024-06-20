@@ -30,7 +30,7 @@ Cohort Configuration
         - Steps Configuration           -   done manually
         - Step Question Configuration   -   Completed
         - Graduation Configuration      -
-        - Material & Home Visit Mapping -
+        - Material & Home Visit Mapping -   Completed
     - VSSC
         - Committee Formation           -
         - Meeting Activity Management   -

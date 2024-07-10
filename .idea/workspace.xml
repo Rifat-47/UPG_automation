@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c45f0bb5-0151-4184-aa85-2a0f69cb7ad5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/material &amp; home visit mapping/material &amp; home visit mapping.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/1.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete collection_point.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete group_visit_activity.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete group_visit_schedule.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete home_visit_details.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete home_visit_schedule.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete participant_wise_home_visit_activity.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home visit - step question config/steps question config.py" beforeDir="false" afterPath="$PROJECT_DIR$/home visit - step question config/steps question config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/info.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/create vo.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/create vo.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,29 +40,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.access control.executor&quot;: &quot;Run&quot;,
-    &quot;Python.asset &amp; input mapping.executor&quot;: &quot;Run&quot;,
-    &quot;Python.asset wise growth form.executor&quot;: &quot;Run&quot;,
-    &quot;Python.create vo 2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.create vo.executor&quot;: &quot;Run&quot;,
-    &quot;Python.extra.executor&quot;: &quot;Run&quot;,
-    &quot;Python.followup questionnaire.executor&quot;: &quot;Run&quot;,
-    &quot;Python.input category.executor&quot;: &quot;Run&quot;,
-    &quot;Python.input setup.executor&quot;: &quot;Run&quot;,
-    &quot;Python.material &amp; home visit mapping.executor&quot;: &quot;Run&quot;,
-    &quot;Python.material setup.executor&quot;: &quot;Run&quot;,
-    &quot;Python.optimized swot config mapping.executor&quot;: &quot;Run&quot;,
-    &quot;Python.optimized.executor&quot;: &quot;Run&quot;,
-    &quot;Python.reason setup.executor&quot;: &quot;Run&quot;,
-    &quot;Python.steps question config.executor&quot;: &quot;Run&quot;,
-    &quot;Python.swot config mapping.executor&quot;: &quot;Run&quot;,
-    &quot;Python.swot name add.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;RifatHomeDevice&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.1.executor": "Run",
+    "Python.access control.executor": "Run",
+    "Python.add Designation Hierarchy.executor": "Run",
+    "Python.asset & input mapping.executor": "Run",
+    "Python.asset wise growth form.executor": "Run",
+    "Python.create vo 2.executor": "Run",
+    "Python.create vo.executor": "Run",
+    "Python.delete collection_point.executor": "Run",
+    "Python.delete group_visit_schedule.executor": "Run",
+    "Python.delete home_visit_details.executor": "Run",
+    "Python.delete home_visit_schedule.executor": "Run",
+    "Python.delete participant_wise_home_visit_activity.executor": "Run",
+    "Python.delete.executor": "Run",
+    "Python.delete2.executor": "Run",
+    "Python.extra.executor": "Run",
+    "Python.followup questionnaire.executor": "Run",
+    "Python.input category.executor": "Run",
+    "Python.input setup.executor": "Run",
+    "Python.material & home visit mapping.executor": "Run",
+    "Python.material setup.executor": "Run",
+    "Python.optimized swot config mapping.executor": "Run",
+    "Python.optimized.executor": "Run",
+    "Python.reason setup.executor": "Run",
+    "Python.steps question config.executor": "Run",
+    "Python.swot config mapping.executor": "Run",
+    "Python.swot name add.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "RifatHomeDevice"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\automation\upg automation\sql query" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

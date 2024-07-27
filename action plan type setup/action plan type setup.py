@@ -1,8 +1,7 @@
-"""Completed"""
-"""add enterprise setup from one program to another program"""
-"""Remember, Parent refers to source program and child refers to target program"""
-"""at first, delete all enterprise option for child program"""
+"""working on"""
+"""add supervision hierarchy from one program to another program"""
 """Just select the program and cohort of source program and target program, you are good to go"""
+"""Remember, Parent refers to source program and child refers to target program"""
 
 import requests
 import json
@@ -102,99 +101,81 @@ if login_json.status_code == 200:
         print("Program & cohort of parent and child is similar, can't advance further.")
         sys.exit(5)
 
-    """main code stars here"""
-    """fetching all materials data"""
-    all_enterprise_json = requests.get(
-        f"https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise/enterprise-wise-asset/all-enterprises",
-        headers={'Authorization': f"Bearer {access_token}"})
-
-    all_enterprise_data = json.loads(all_enterprise_json.content)
-    all_enterprise_info = all_enterprise_data['resultset']
-
-    print('All enterprise option length', len(all_enterprise_info))
-
-    parent_enterprise = []
-    child_program_name = selected_child_program_info['Program_name']
-    child_program_id = selected_child_program_info['Program_id']
-    child_program_cohort = selected_child_cohort_info['cohort_name']
+    """delete child's existing designation hierarchy"""
     child_cohort_id = selected_child_cohort_info['cohort_id']
+    child_program_id = selected_child_program_info['Program_id']
 
-    parent_program_name = selected_parent_program_info['Program_name']
-    parent_program_id = selected_parent_program_info['Program_id']
+    child_current_supervision_hierarchy_json = requests.get(
+        f'https://upgapstg.brac.net/upg-auth/api/v1/supervision/roles/hierarchy/{child_cohort_id}',
+        headers={'Authorization': f"Bearer {access_token}"})
+    child_current_supervision_hierarchy_info = json.loads(child_current_supervision_hierarchy_json.content)
+
+    if 'resultset' in child_current_supervision_hierarchy_info:
+        child_current_supervision_hierarchy = child_current_supervision_hierarchy_info['resultset']
+        child_current_supervision_hierarchy_length = len(child_current_supervision_hierarchy)
+        print("No of designation hierarchy(child): ", child_current_supervision_hierarchy_length)
+
+        current_deleted_hierarchy = 0
+        for designation_hierarchy in child_current_supervision_hierarchy:
+            hierarchy_id = designation_hierarchy['id']
+            delete_current_hierarchy_request_json = requests.delete(
+                f'https://upgapstg.brac.net/upg-auth/api/v1/supervision/roles/hierarchy/{hierarchy_id}',
+                headers={'Authorization': f"Bearer {access_token}"})
+            delete_current_hierarchy_request = json.loads(delete_current_hierarchy_request_json.content)
+            if delete_current_hierarchy_request['status'] == "ok":
+                current_deleted_hierarchy += 1
+
+        if child_current_supervision_hierarchy_length == current_deleted_hierarchy:
+            print(f"All existing designation hierarchy deleted. Total {current_deleted_hierarchy} deleted.")
+        else:
+            print(
+                f'{current_deleted_hierarchy} out of {child_current_supervision_hierarchy_length} designation hierarchy has been deleted.')
+    else:
+        print('Sorry,' + ' ' + child_current_supervision_hierarchy_info['message'])
+
+
+    """fetching data from existing cohort to update our expected cohort"""
     parent_cohort_id = selected_parent_cohort_info['cohort_id']
 
-    parent_program_cohort = selected_parent_cohort_info['cohort_name']
-    for enterprise in all_enterprise_info:
-        if enterprise["program_name"] == parent_program_name and enterprise['cohort_name'] == parent_program_cohort:
-            parent_enterprise.append(enterprise)
-
-    print('Total Parent enterprise: ', len(parent_enterprise))
-
-    """get enterprise category for both parent & child program by cohort_id"""
-    all_enterprise_category_json = requests.get(
-        f"https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise-category/all",
+    # print(f"https://upgapstg.brac.net/upg-auth/api/v1/supervision/roles/hierarchy/{parent_cohort_id}")
+    parent_supervision_hierarchy_json = requests.get(
+        f"https://upgapstg.brac.net/upg-auth/api/v1/supervision/roles/hierarchy/{parent_cohort_id}",
         headers={'Authorization': f"Bearer {access_token}"})
 
-    all_enterprise_category_data = json.loads(all_enterprise_category_json.content)
-    all_enterprise_category_info = all_enterprise_category_data['resultset']
+    # deserialize a JSON formatted string into a Python object
+    parent_hierarchy_info = json.loads(parent_supervision_hierarchy_json.content)
+    # print(parent_hierarchy_info)
 
-    parent_category_map = {}
-    child_category_map = {}
-    for enterprise_category in all_enterprise_category_info:
-        if enterprise_category['cohort_id'] == child_cohort_id:
-            # child_enterprise_category.append({enterprise_category['name']: enterprise_category['id']})
-            child_category_map[enterprise_category['name']] = enterprise_category['id']
-        if enterprise_category['cohort_id'] == parent_cohort_id:
-            # parent_enterprise_category.append({enterprise_category['id']: enterprise_category['name']})
-            parent_category_map[enterprise_category['id']] = enterprise_category['name']
+    # hierarchy_info_length & success compare & check if all data loaded successfully
+    parent_hierarchy_info_length = len(parent_hierarchy_info['resultset'])
+    supervision_hierarchy_updated = 0
 
-    """adding material setap data"""
-    print('Updating material setup, please wait...')
-    child_enterprise_updated = 0
+    """need to update cohort_id & program_id"""
+    print('Updating info, please wait...')
+    for single_hierarchy in parent_hierarchy_info['resultset']:
+        data = [{
+            'cohort_id': child_cohort_id,
+            'level': single_hierarchy['level'],
+            'parent_role_id': single_hierarchy['parent_role_id'],
+            'program_id': child_program_id,
+            'role_id': single_hierarchy['role_id'],
+        }]
 
-    for enterprise in parent_enterprise:
-        category_id = enterprise['category_id']
-        category_name = parent_category_map.get(category_id, '')
-        child_category_id = child_category_map.get(category_name, '')
+        """adding designation hierarchy in child program"""
+        child_supervision_hierarchy_update_request = requests.post(
+            "https://upgapstg.brac.net/upg-auth/api/v1/supervision/roles/hierarchy",
+            json=data, headers={'Authorization': f"Bearer {access_token}"})
 
-        assets = []
-        all_assets = enterprise["assets"]
-        for asset in all_assets:
-            assets.append({
-                "asset_name": asset["name"],
-                "quantity": asset["quantity"],
-                "asset_id": asset["asset_id"],
-                "is_main_asset": asset["is_main_asset"]
-            })
-
-        data = {
-            "name": enterprise['name'],
-            "enterprise_code": enterprise["enterprise_code"],
-            "cohort_id": child_cohort_id,
-            "main_asset_quantity": enterprise["main_asset_quantity"],
-            "supporting_asset_quantity": enterprise["supporting_asset_quantity"],
-            "category_id": child_category_id,
-            "main_asset_id": enterprise["main_asset_id"],
-            "supporting_asset_id": enterprise["supporting_asset_id"],
-            "assets": assets
-        }
-
-        # print(enterprise)
-        # print(data)
-
-        """adding enterprise in child program"""
-        child_enterprise_update_request = requests.post('https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise/enterprise-wise-asset/create-enterprise-asset',
-                                                      json=data, headers={'Authorization': f"Bearer {access_token}"})
-
-        if child_enterprise_update_request.status_code == 201:
-            child_enterprise_updated += 1
+        if child_supervision_hierarchy_update_request.status_code == 200:
+            supervision_hierarchy_updated += 1
         else:
             print(data)
 
-    if len(parent_enterprise) == child_enterprise_updated:
-        print(f'Everything updated! {child_enterprise_updated} out of {len(parent_enterprise)}')
+    if parent_hierarchy_info_length == supervision_hierarchy_updated:
+        print(f'Everything updated! {supervision_hierarchy_updated} out of {parent_hierarchy_info_length}')
     else:
-        print(f'{child_enterprise_updated} data updated out of {len(parent_enterprise)}')
+        print(f'{supervision_hierarchy_updated} data updated out of {parent_hierarchy_info_length}')
 
 else:
     print('Login failed. Try with correct credentials')
+

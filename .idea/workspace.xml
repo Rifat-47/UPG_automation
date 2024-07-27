@@ -5,16 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c45f0bb5-0151-4184-aa85-2a0f69cb7ad5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/sql query/1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql query/delete collection_point.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql query/delete group_visit_activity.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql query/delete group_visit_schedule.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql query/delete home_visit_details.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql query/delete home_visit_schedule.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql query/delete participant_wise_home_visit_activity.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql query/delete.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/action plan type setup/action plan type setup.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/enterprise setup/extra.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/enterprise/delete enterprise.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/enterprise/insert enterprise.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/extr1.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/insert committee_formation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/create vo.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/create vo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise setup/enterprise setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise setup/enterprise setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group visit topic setup/group visit topic setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/topic setup for group visit/topic setup for group visit .py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/info.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql query/Book1.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/Book1.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql query/create vo.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/create vo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql query/prac.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/prac.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,33 +50,42 @@
     "Python.add Designation Hierarchy.executor": "Run",
     "Python.asset & input mapping.executor": "Run",
     "Python.asset wise growth form.executor": "Run",
+    "Python.committee formation.executor": "Run",
     "Python.create vo 2.executor": "Run",
     "Python.create vo.executor": "Run",
     "Python.delete collection_point.executor": "Run",
+    "Python.delete enterprise.executor": "Run",
     "Python.delete group_visit_schedule.executor": "Run",
     "Python.delete home_visit_details.executor": "Run",
     "Python.delete home_visit_schedule.executor": "Run",
     "Python.delete participant_wise_home_visit_activity.executor": "Run",
     "Python.delete.executor": "Run",
     "Python.delete2.executor": "Run",
+    "Python.enterprise setup.executor": "Run",
+    "Python.extr1.executor": "Run",
     "Python.extra.executor": "Run",
     "Python.followup questionnaire.executor": "Run",
     "Python.input category.executor": "Run",
     "Python.input setup.executor": "Run",
+    "Python.insert committee_formation.executor": "Run",
+    "Python.insert enterprise.executor": "Run",
     "Python.material & home visit mapping.executor": "Run",
     "Python.material setup.executor": "Run",
     "Python.optimized swot config mapping.executor": "Run",
     "Python.optimized.executor": "Run",
+    "Python.prac.executor": "Run",
     "Python.reason setup.executor": "Run",
     "Python.steps question config.executor": "Run",
     "Python.swot config mapping.executor": "Run",
     "Python.swot name add.executor": "Run",
+    "Python.topic setup for group visit .executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "RifatHomeDevice"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\automation\upg automation\sql query\enterprise" />
       <recent name="E:\automation\upg automation\sql query" />
     </key>
   </component>

@@ -12,9 +12,9 @@ import string
 #                 '3010', '4508', '4816', '0249', '9002', '9146',
 #                 '10038', '10039', '9255', '9179']
 
-branch_codes = ['9367']
+branch_codes = ['10021']
 
-random_vo_no = 9001
+random_vo_no = 1948
 total_vo = 1
 member_in_vo = 10
 

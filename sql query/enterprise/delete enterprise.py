@@ -1,7 +1,7 @@
 import openpyxl
 
 # Load the workbook
-workbook = openpyxl.load_workbook('Book1.xlsx')
+workbook = openpyxl.load_workbook('../Book1.xlsx')
 
 # Get all sheet names
 sheet_names = workbook.sheetnames
@@ -27,7 +27,8 @@ for sheet_name in sheet_names:
 print(all_data)
 
 for data in all_data:
-    query_list.append(f'DELETE from collection_point WHERE id={data[0]} AND vo_id={data[1]} and participant_id={data[2]};')
+    # Delete from enterprise where id = '0d7f709d-571b-4243-8b17-bfbe4c0f8b92';
+    query_list.append(f"Delete from enterprise where id='{data[0]}';")
 
 for query in query_list:
     print(query)

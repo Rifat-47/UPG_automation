@@ -1,3 +1,8 @@
+reason setup -> cohort on off
+enterprise setup -> all prog filter
+supervision hierarchy -> delete child data
+
+
 Master Data Management
     - Programme Configuration           -   No Need
     - Cohort Creation                   -   No Need
@@ -38,64 +43,64 @@ Cohort Configuration
         - Approval Hierarchy Configuration-
     - Group Setup                       -
     - Asset Setup                       -
-    - Enterprise Category               -
-    - Enterprise Setup                  -   TODO
+    - Enterprise Category               -   No Need
+    - Enterprise Setup                  -   Completed
     - Enterprise Mapping                -   TODO
     - Material Setup                    -   Completed
-    - Training Setup                    -
+    - Training Setup                    -   No Need
     - Input Category                    -   Completed
     - Input Setup                       -   Completed
     - Asset & Input Mapping             -   Completed
-    - Pre Requisite Setup               -
-    - Selection Criteria                -
-    - Reason Type                       -
+    - Pre Requisite Setup               -   TODO
+    - Selection Criteria                -   TODO
+    - Reason Type                       -   No Need
     - Reason                            -   Completed
-    - Exclusion                         -
-    - Support Item                      -
-    - Wealth Rank                       -
-    - Form Menu Mapping                 -
+    - Exclusion                         -   No Need
+    - Support Item                      -   No need
+    - Wealth Rank                       -   No need
+    - Form Menu Mapping                 -   No need
     - Asset Wise Growth Form            -   Completed
 Form Configuration
-    - Form List                         -
+    - Form List                         -   No need
 Report
-    - Enterprise Selection Report       -
+    - Enterprise Selection Report       -   No need
     - Miscellaneous                     -
-        - Data for AOP
-    - Enterprise Growth Report
-    - Asset Growth Report
-    - Training Report
-    - FGD/PRA Report
-    - Exclusion Report
-    - Asset Transfer Report
-    - Asset Transfer By Group Report
-    - Asset Transfer Summary Report
-    - Diversification Report
-    - Special Report
-    - VSSC Report
-    - Health Care Report
-    - Graduation Report (Group 2 & 3)
-    - Graduation Report (Group 1)
-    - SSNP Report
-    - Poultry Rearing Report
-    - Survey Report
-    - Baseline Survey Report
+        - Data for AOP                  -   No need
+    - Enterprise Growth Report          -   No need
+    - Asset Growth Report               -   No need
+    - Training Report                   -   No need
+    - FGD/PRA Report                    -   No need
+    - Exclusion Report                  -   No need
+    - Asset Transfer Report             -   No need
+    - Asset Transfer By Group Report    -   No need
+    - Asset Transfer Summary Report     -   No need
+    - Diversification Report            -   No need
+    - Special Report                    -   No need
+    - VSSC Report                       -   No need
+    - Health Care Report                -   No need
+    - Graduation Report (Group 2 & 3)   -   No need
+    - Graduation Report (Group 1)       -   No need
+    - SSNP Report                       -   No need
+    - Poultry Rearing Report            -   No need
+    - Survey Report                     -   No need
+    - Baseline Survey Report            -   No need
 Participant Profile Management
-    - Pariticipant Profile
+- Pariticipant Profile                  -   No need
     - Migration
-        - Branch to Branch
+        - Branch to Branch              -   No need
 Supervision & Followup
-    - Supervision Checklist Field Setup
+    - Supervision Checklist Field Setup -   TODO
     - Supervision Checklist HO
-        - Field Data
-        - Action Plan
-        - Team Action Plan
-    - Role Wise Action Plan Setup
-    - Action Plan Type Setup
+        - Field Data                    -   No need
+        - Action Plan                   -   No need
+        - Team Action Plan              -   No need
+    - Role Wise Action Plan Setup       -   TODO
+    - Action Plan Type Setup            -   TODO
 Data Correction Management
-    - Data Correction
+    - Data Correction                   -   No Need
 Approval
-    - Send Approval Request
+    - Send Approval Request             -   No Need
 Audit Trail Management
-    - Audit Trail
+    - Audit Trail                       -   No Need
 
 

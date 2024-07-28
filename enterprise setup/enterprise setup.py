@@ -116,16 +116,16 @@ if login_json.status_code == 200:
     parent_enterprise = []
     child_program_name = selected_child_program_info['Program_name']
     child_program_id = selected_child_program_info['Program_id']
-    child_program_cohort = selected_child_cohort_info['cohort_name']
+    child_cohort_name = selected_child_cohort_info['cohort_name']
     child_cohort_id = selected_child_cohort_info['cohort_id']
 
     parent_program_name = selected_parent_program_info['Program_name']
     parent_program_id = selected_parent_program_info['Program_id']
+    parent_cohort_name = selected_parent_cohort_info['cohort_name']
     parent_cohort_id = selected_parent_cohort_info['cohort_id']
 
-    parent_program_cohort = selected_parent_cohort_info['cohort_name']
     for enterprise in all_enterprise_info:
-        if enterprise["program_name"] == parent_program_name and enterprise['cohort_name'] == parent_program_cohort:
+        if enterprise["program_name"] == parent_program_name and enterprise['cohort_name'] == parent_cohort_name:
             parent_enterprise.append(enterprise)
 
     print('Total Parent enterprise: ', len(parent_enterprise))

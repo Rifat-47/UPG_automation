@@ -1,5 +1,6 @@
-"""completed"""
-"""add action plan type setup from one program to another program"""
+"""Completed"""
+"""add role wise action plan setup from one program to another program"""
+"""action plan type setup is required for child program"""
 """Just select the program and cohort of source program and target program, you are good to go"""
 """Remember, Parent refers to source program and child refers to target program"""
 
@@ -101,82 +102,115 @@ if login_json.status_code == 200:
         print("Program & cohort of parent and child is similar, can't advance further.")
         sys.exit(5)
 
-    """delete child's existing designation hierarchy"""
+    """delete child's existing role wise action plan setup"""
     child_cohort_id = selected_child_cohort_info['cohort_id']
     child_program_id = selected_child_program_info['Program_id']
 
-    child_current_action_plan_type_json = requests.get(
-        f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/by-cohort/{child_cohort_id}',
+    child_role_wise_action_plan_json = requests.get(
+        f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/role-wise-type/all-by-cohort/{child_cohort_id}',
         headers={'Authorization': f"Bearer {access_token}"})
-    child_current_action_plan_type_info = json.loads(child_current_action_plan_type_json.content)
+    child_current_role_wise_action_plan_info = json.loads(child_role_wise_action_plan_json.content)
 
-    if 'resultset' in child_current_action_plan_type_info:
-        child_current_action_plan_type = child_current_action_plan_type_info['resultset']
-        child_current_action_plan_type_length = len(child_current_action_plan_type)
-        print("No of designation hierarchy(child): ", child_current_action_plan_type_length)
+    if 'resultset' in child_current_role_wise_action_plan_info:
+        child_current_role_wise_action_plan = child_current_role_wise_action_plan_info['resultset']
+        child_current_role_wise_action_plan_length = len(child_current_role_wise_action_plan)
+        print("No of role wise action plan (child): ", child_current_role_wise_action_plan_length)
 
-        current_deleted_action_plan_type = 0
-        for action_plan_type in child_current_action_plan_type:
-            action_plan_type_id = action_plan_type['id']
-            delete_current_hierarchy_request_json = requests.delete(
-                f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/delete/{action_plan_type_id}/cohortId/{child_cohort_id}',
+        current_deleted_role_wise_action_plan = 0
+        for role_wise_action_plan in child_current_role_wise_action_plan:
+            action_plan_id = role_wise_action_plan["action_plan_type_id"]
+            role_id = role_wise_action_plan["role_id"]
+            action_plan_type_id = role_wise_action_plan["action_plan_type_id"]
+            delete_current_role_wise_action_plan_request_json = requests.delete(
+                f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/role-wise-type/delete/cohort-id/{child_cohort_id}/role-id/{role_id}/action-plan-type-id/{action_plan_type_id}',
                 headers={'Authorization': f"Bearer {access_token}"})
-            delete_current_action_plan_type_request = json.loads(delete_current_hierarchy_request_json.content)
-            if delete_current_action_plan_type_request['status'] == "ok":
-                current_deleted_action_plan_type += 1
+            delete_current_role_wise_action_plan_request = json.loads(delete_current_role_wise_action_plan_request_json.content)
+            if delete_current_role_wise_action_plan_request['status'] == "ok":
+                current_deleted_role_wise_action_plan += 1
 
-        if child_current_action_plan_type_length == current_deleted_action_plan_type:
-            print(f"All existing action plan type deleted. Total {current_deleted_action_plan_type} deleted.")
+        if child_current_role_wise_action_plan_length == current_deleted_role_wise_action_plan:
+            print(f"All existing action plan type deleted. Total {current_deleted_role_wise_action_plan} deleted.")
         else:
             print(
-                f'{current_deleted_action_plan_type} out of {child_current_action_plan_type_length} action plan type has been deleted.')
+                f'{current_deleted_role_wise_action_plan} out of {child_current_role_wise_action_plan_length} role wise action plan has been deleted.')
     else:
-        print('Sorry,' + ' ' + child_current_action_plan_type_info['message'])
+        print('Sorry,' + ' ' + child_current_role_wise_action_plan_info['message'])
 
 
     """fetching data from existing cohort to update our expected cohort"""
     parent_cohort_id = selected_parent_cohort_info['cohort_id']
 
     # print(f"https://upgapstg.brac.net/upg-auth/api/v1/supervision/roles/hierarchy/{parent_cohort_id}")
-    parent_action_plan_type_json = requests.get(
-        f"https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/by-cohort/{parent_cohort_id}",
+    parent_role_wise_action_plan_json = requests.get(
+        f"https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/role-wise-type/all-by-cohort/{parent_cohort_id}",
         headers={'Authorization': f"Bearer {access_token}"})
 
     # deserialize a JSON formatted string into a Python object
-    parent_action_plan_type_info = json.loads(parent_action_plan_type_json.content)
-    # print(parent_action_plan_type_info)
+    parent_role_wise_action_plan_info = json.loads(parent_role_wise_action_plan_json.content)
+    # print(parent_role_wise_action_plan_info)
 
     # hierarchy_info_length & success compare & check if all data loaded successfully
-    parent_action_plan_type_info_length = len(parent_action_plan_type_info['resultset'])
-    action_plan_type_updated = 0
+    parent_role_wise_action_plan_info_length = len(parent_role_wise_action_plan_info['resultset'])
+    print("Total parent role wise action plan: ", parent_role_wise_action_plan_info_length)
+
+    role_wise_action_plan_updated = 0
+
+    """get action plan category id for both parent & child program by cohort_id"""
+    parent_action_plan_type_map = {}
+    child_action_plan_type_map = {}
+
+    child_current_action_plan_type_json = requests.get(
+        f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/by-cohort/{child_cohort_id}',
+        headers={'Authorization': f"Bearer {access_token}"})
+    child_current_action_plan_type_info = json.loads(child_current_action_plan_type_json.content)
+
+    for action_plan_type in child_current_action_plan_type_info['resultset']:
+        child_action_plan_type_map[action_plan_type["action_plan_name"]] = action_plan_type['id']
+
+    parent_current_action_plan_type_json = requests.get(
+        f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/by-cohort/{parent_cohort_id}',
+        headers={'Authorization': f"Bearer {access_token}"})
+    parent_current_action_plan_type_info = json.loads(parent_current_action_plan_type_json.content)
+
+    for action_plan_type in parent_current_action_plan_type_info['resultset']:
+        parent_action_plan_type_map[action_plan_type["id"]] = action_plan_type["action_plan_name"]
+
 
     """need to update cohort_id & program_id"""
     print('Updating info, please wait...')
-    for single_action_plan_type in parent_action_plan_type_info['resultset']:
+    for single_role_wise_action_plan in parent_role_wise_action_plan_info['resultset']:
+        action_plan_type_id = single_role_wise_action_plan["action_plan_type_id"]
+        action_plan_type_name = parent_action_plan_type_map.get(action_plan_type_id, '')
+        child_action_plan_id = child_action_plan_type_map.get(action_plan_type_name, '')
+
         data = {
-            "action_plan_types": [
+            "role_wise_action_plan_types": [
                 {
-                    "action_plan_name": single_action_plan_type["action_plan_name"],
-                    "action_plan_type_tag": single_action_plan_type["action_plan_type_tag"],
+                    "action_plan_type_id": child_action_plan_id,
+                    "action_plan_type_name": single_role_wise_action_plan["action_plan_type_name"],
+                    "role_id": single_role_wise_action_plan["role_id"],
+                    "role_name": single_role_wise_action_plan["role_name"],
                     "cohort_id": child_cohort_id
                 }
             ]
         }
+        # print(action_plan_type_id, action_plan_type_name, child_action_plan_id)
+        # exit(1)
 
-        """adding designation hierarchy in child program"""
-        child_action_plan_type_update_request = requests.post(
-            "https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/add",
+        """adding role wise action plan setup request in child program"""
+        child_role_wise_action_plan_update_request = requests.post(
+            "https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/role-wise-type/add",
             json=data, headers={'Authorization': f"Bearer {access_token}"})
 
-        if child_action_plan_type_update_request.status_code == 200:
-            action_plan_type_updated += 1
+        if child_role_wise_action_plan_update_request.status_code == 200:
+            role_wise_action_plan_updated += 1
         else:
             print(data)
 
-    if parent_action_plan_type_info_length == action_plan_type_updated:
-        print(f'Everything updated! {action_plan_type_updated} out of {parent_action_plan_type_info_length}')
+    if parent_role_wise_action_plan_info_length == role_wise_action_plan_updated:
+        print(f'Everything updated! {role_wise_action_plan_updated} out of {parent_role_wise_action_plan_info_length}')
     else:
-        print(f'{action_plan_type_updated} data updated out of {parent_action_plan_type_info_length}')
+        print(f'{role_wise_action_plan_updated} data updated out of {parent_role_wise_action_plan_info_length}')
 
 else:
     print('Login failed. Try with correct credentials')

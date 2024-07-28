@@ -1,5 +1,5 @@
 reason setup -> cohort on off
-enterprise setup -> all prog filter
+enterprise setup + role wise action plan -> all prog filter + details prog & cohort
 supervision hierarchy -> delete child data
 
 
@@ -51,8 +51,8 @@ Cohort Configuration
     - Input Category                    -   Completed
     - Input Setup                       -   Completed
     - Asset & Input Mapping             -   Completed
-    - Pre Requisite Setup               -   TODO
-    - Selection Criteria                -   TODO
+    - Pre Requisite Setup               -   setup completed & mapping manually
+    - Selection Criteria                -   Done manually
     - Reason Type                       -   No Need
     - Reason                            -   Completed
     - Exclusion                         -   No Need
@@ -89,13 +89,13 @@ Participant Profile Management
     - Migration
         - Branch to Branch              -   No need
 Supervision & Followup
-    - Supervision Checklist Field Setup -   TODO
+    - Supervision Checklist Field Setup -   Completed
     - Supervision Checklist HO
         - Field Data                    -   No need
         - Action Plan                   -   No need
         - Team Action Plan              -   No need
-    - Role Wise Action Plan Setup       -   TODO
-    - Action Plan Type Setup            -   TODO
+    - Role Wise Action Plan Setup       -   Completed
+    - Action Plan Type Setup            -   Completed
 Data Correction Management
     - Data Correction                   -   No Need
 Approval

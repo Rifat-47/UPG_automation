@@ -1,5 +1,6 @@
-"""completed"""
-"""add action plan type setup from one program to another program"""
+"""supervision hierarchy + enterprise setup"""
+
+"""add pre requisite setup & mapping from one program to another program"""
 """Just select the program and cohort of source program and target program, you are good to go"""
 """Remember, Parent refers to source program and child refers to target program"""
 
@@ -101,83 +102,89 @@ if login_json.status_code == 200:
         print("Program & cohort of parent and child is similar, can't advance further.")
         sys.exit(5)
 
-    """delete child's existing designation hierarchy"""
-    child_cohort_id = selected_child_cohort_info['cohort_id']
+    child_program_name = selected_child_program_info['Program_name']
     child_program_id = selected_child_program_info['Program_id']
+    child_cohort_name = selected_child_cohort_info['cohort_name']
+    child_cohort_id = selected_child_cohort_info['cohort_id']
 
-    child_current_action_plan_type_json = requests.get(
-        f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/by-cohort/{child_cohort_id}',
-        headers={'Authorization': f"Bearer {access_token}"})
-    child_current_action_plan_type_info = json.loads(child_current_action_plan_type_json.content)
-
-    if 'resultset' in child_current_action_plan_type_info:
-        child_current_action_plan_type = child_current_action_plan_type_info['resultset']
-        child_current_action_plan_type_length = len(child_current_action_plan_type)
-        print("No of designation hierarchy(child): ", child_current_action_plan_type_length)
-
-        current_deleted_action_plan_type = 0
-        for action_plan_type in child_current_action_plan_type:
-            action_plan_type_id = action_plan_type['id']
-            delete_current_hierarchy_request_json = requests.delete(
-                f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/delete/{action_plan_type_id}/cohortId/{child_cohort_id}',
-                headers={'Authorization': f"Bearer {access_token}"})
-            delete_current_action_plan_type_request = json.loads(delete_current_hierarchy_request_json.content)
-            if delete_current_action_plan_type_request['status'] == "ok":
-                current_deleted_action_plan_type += 1
-
-        if child_current_action_plan_type_length == current_deleted_action_plan_type:
-            print(f"All existing action plan type deleted. Total {current_deleted_action_plan_type} deleted.")
-        else:
-            print(
-                f'{current_deleted_action_plan_type} out of {child_current_action_plan_type_length} action plan type has been deleted.')
-    else:
-        print('Sorry,' + ' ' + child_current_action_plan_type_info['message'])
-
-
-    """fetching data from existing cohort to update our expected cohort"""
+    parent_program_name = selected_parent_program_info['Program_name']
+    parent_program_id = selected_parent_program_info['Program_id']
+    parent_cohort_name = selected_parent_cohort_info['cohort_name']
     parent_cohort_id = selected_parent_cohort_info['cohort_id']
 
-    # print(f"https://upgapstg.brac.net/upg-auth/api/v1/supervision/roles/hierarchy/{parent_cohort_id}")
-    parent_action_plan_type_json = requests.get(
-        f"https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/by-cohort/{parent_cohort_id}",
+    """fetch all existing pre requisite"""
+    all_pre_requisite_json = requests.get(
+        f'https://upgapstg.brac.net/upg-participant-selection/api/v1/prerequisite/get-all-prerequisite-setup',
         headers={'Authorization': f"Bearer {access_token}"})
+    all_pre_requisite_data = json.loads(all_pre_requisite_json.content)
+    all_pre_requisite_info = all_pre_requisite_data['resultset']
 
-    # deserialize a JSON formatted string into a Python object
-    parent_action_plan_type_info = json.loads(parent_action_plan_type_json.content)
-    # print(parent_action_plan_type_info)
+    parent_pre_requisite = []
+    child_pre_requisite = []
 
-    # hierarchy_info_length & success compare & check if all data loaded successfully
-    parent_action_plan_type_info_length = len(parent_action_plan_type_info['resultset'])
-    action_plan_type_updated = 0
+    for pre_requisite in all_pre_requisite_info:
+        if pre_requisite['cohort_id'] == child_cohort_id:
+            child_pre_requisite.append(pre_requisite)
+        if pre_requisite['cohort_id'] == parent_cohort_id:
+            parent_pre_requisite.append(pre_requisite)
 
-    """need to update cohort_id & program_id"""
-    print('Updating info, please wait...')
-    for single_action_plan_type in parent_action_plan_type_info['resultset']:
+    print('Parent pre requisite: ', len(parent_pre_requisite))
+    print('Current child pre requisite: ', len(child_pre_requisite))
+    
+    """delete child's existing pre requisite"""
+    child_deleted_pre_requisite = 0
+    for c_pre_requisite in child_pre_requisite:
+        pre_requisite_id = c_pre_requisite['id']
+        delete_pre_requisite_request_json = requests.delete(
+            f"https://upgapstg.brac.net/upg-participant-selection/api/v1/prerequisite/delete-prerequisite/{child_cohort_id}/{pre_requisite_id}",
+            headers={'Authorization': f"Bearer {access_token}"})
+        delete_pre_requisite_request = json.loads(delete_pre_requisite_request_json.content)
+        if delete_pre_requisite_request['status'] == 'ok':
+            child_deleted_pre_requisite += 1
+
+    if len(child_pre_requisite) == child_deleted_pre_requisite:
+        print(f"All existing pre requisite deleted. Total {child_deleted_pre_requisite} deleted.")
+    else:
+        print(
+            f'{child_deleted_pre_requisite} out of {len(child_pre_requisite)} pre requisite has been deleted.')
+
+    """adding pre requisite setap data"""
+    print('Updating pre requisite setup, please wait...')
+
+    child_pre_requisite_updated = 0
+    for p_pre_requisite in parent_pre_requisite:
         data = {
-            "action_plan_types": [
-                {
-                    "action_plan_name": single_action_plan_type["action_plan_name"],
-                    "action_plan_type_tag": single_action_plan_type["action_plan_type_tag"],
-                    "cohort_id": child_cohort_id
-                }
-            ]
+            "title": p_pre_requisite["title"],
+            "cohort_id": child_cohort_id,
+            "program_id": child_program_id,
+            "cohort_name": child_cohort_name,
+            "program_name": child_program_name,
+            "descriptions": p_pre_requisite["descriptions"]
         }
 
-        """adding designation hierarchy in child program"""
-        child_action_plan_type_update_request = requests.post(
-            "https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/add",
-            json=data, headers={'Authorization': f"Bearer {access_token}"})
+        """adding material in child program"""
+        child_pre_requisite_update_request = requests.post('https://upgapstg.brac.net/upg-participant-selection/api/v1/prerequisite/prerequisite',
+                                                   json=data, headers={'Authorization': f"Bearer {access_token}"})
 
-        if child_action_plan_type_update_request.status_code == 200:
-            action_plan_type_updated += 1
+        if child_pre_requisite_update_request.status_code == 200:
+            child_pre_requisite_updated += 1
         else:
             print(data)
 
-    if parent_action_plan_type_info_length == action_plan_type_updated:
-        print(f'Everything updated! {action_plan_type_updated} out of {parent_action_plan_type_info_length}')
+    if len(parent_pre_requisite) == child_pre_requisite_updated:
+        print(f'Everything updated! {child_pre_requisite_updated} out of {len(parent_pre_requisite)}')
     else:
-        print(f'{action_plan_type_updated} data updated out of {parent_action_plan_type_info_length}')
+        print(f'{child_pre_requisite_updated} data updated out of {len(parent_pre_requisite)}')
 
 else:
     print('Login failed. Try with correct credentials')
 
+
+
+# parent = {'a': '101', 'b': '102', 'c': '103'}
+# child = {'a': '201', 'b': '202', 'c': '203'}
+#
+# # Create the final dictionary
+# final = {parent[key]: child[key] for key in parent}
+#
+# print(final)

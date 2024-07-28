@@ -5,19 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c45f0bb5-0151-4184-aa85-2a0f69cb7ad5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/action plan type setup/action plan type setup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enterprise setup/extra.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql query/enterprise/delete enterprise.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql query/enterprise/insert enterprise.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql query/extr1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql query/insert committee_formation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pre requisite setup/pre requisite setup.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/role wise action plan setup/role wise action plan setup.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/supervision checklist/supervision checklist field setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/action plan type setup/action plan type setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/action plan type setup/action plan type setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/enterprise setup/enterprise setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise setup/enterprise setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group visit topic setup/group visit topic setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/topic setup for group visit/topic setup for group visit .py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/info.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql query/Book1.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/Book1.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sql query/create vo.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/create vo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql query/prac.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/prac.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +42,7 @@
   "keyToString": {
     "Python.1.executor": "Run",
     "Python.access control.executor": "Run",
+    "Python.action plan type setup.executor": "Run",
     "Python.add Designation Hierarchy.executor": "Run",
     "Python.asset & input mapping.executor": "Run",
     "Python.asset wise growth form.executor": "Run",
@@ -74,8 +70,11 @@
     "Python.optimized swot config mapping.executor": "Run",
     "Python.optimized.executor": "Run",
     "Python.prac.executor": "Run",
+    "Python.pre requisite setup.executor": "Run",
     "Python.reason setup.executor": "Run",
+    "Python.role wise action plan setup.executor": "Run",
     "Python.steps question config.executor": "Run",
+    "Python.supervision checklist field setup.executor": "Run",
     "Python.swot config mapping.executor": "Run",
     "Python.swot name add.executor": "Run",
     "Python.topic setup for group visit .executor": "Run",

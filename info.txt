@@ -51,7 +51,7 @@ Cohort Configuration
     - Input Category                    -   Completed
     - Input Setup                       -   Completed
     - Asset & Input Mapping             -   Completed
-    - Pre Requisite Setup               -   setup completed & mapping manually
+    - Pre Requisite Setup + mapping     -   setup completed & mapping manually
     - Selection Criteria                -   Do manually
     - Reason Type                       -   No Need
     - Reason                            -   Completed

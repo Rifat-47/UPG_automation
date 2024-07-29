@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c45f0bb5-0151-4184-aa85-2a0f69cb7ad5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/asset &amp; input mapping/asset &amp; input mapping.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/asset &amp; input mapping/asset input mapping 2.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset &amp; input mapping/asset input mapping 2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input setup/input_setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/input setup/input_setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql query/create vo.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/create vo.py" afterDir="false" />
-    </list>
+    <list default="true" id="c45f0bb5-0151-4184-aa85-2a0f69cb7ad5" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

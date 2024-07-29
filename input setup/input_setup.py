@@ -154,29 +154,6 @@ if login_json.status_code == 200:
         print(
             f'{child_deleted_input} out of {len(current_child_inputs)} inputs has been deleted.')
 
-    """fetch parent input category"""
-    # parent_input_category_map = {}
-    # parent_input_category_json = requests.get(
-    #     f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/by-cohort/{parent_cohort_id}',
-    #     headers={'Authorization': f"Bearer {access_token}"})
-    # parent_input_category_data = json.loads(parent_input_category_json.content)
-    # parent_input_category_info = parent_input_category_data["resultset"]
-    # for p_input_category in parent_input_category_info:
-    #     parent_input_category_map[p_input_category["type"]] = p_input_category['id']
-
-    """fetch child input category"""
-    # child_input_category_map = {}
-    # child_input_category_json = requests.get(
-    #     f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/by-cohort/{child_cohort_id}',
-    #     headers={'Authorization': f"Bearer {access_token}"})
-    # child_input_category_data = json.loads(child_input_category_json.content)
-    # child_input_category_info = child_input_category_data["resultset"]
-    # for c_input_category in parent_input_category_info:
-    #     child_input_category_map[c_input_category["type"]] = c_input_category['id']
-
-    # final_input_category_map = {parent_input_category_map[key]: child_input_category_map[key] for key in
-    #                          parent_input_category_map}
-
     """all input categories"""
     parent_input_category_map = {}
     child_input_category_map = {}

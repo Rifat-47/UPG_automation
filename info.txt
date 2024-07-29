@@ -50,7 +50,7 @@ Cohort Configuration
     - Training Setup                    -   No Need
     - Input Category                    -   Completed
     - Input Setup                       -   Completed
-    - Asset & Input Mapping             -   TODO
+    - Asset & Input Mapping             -   Completed
     - Pre Requisite Setup               -   setup completed & mapping manually
     - Selection Criteria                -   Do manually
     - Reason Type                       -   No Need

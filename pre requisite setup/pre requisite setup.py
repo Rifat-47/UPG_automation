@@ -1,6 +1,4 @@
-"""supervision hierarchy + enterprise setup"""
-
-"""add pre requisite setup & mapping from one program to another program"""
+"""add pre-requisite setup & mapping(do manually) from one program to another program"""
 """Just select the program and cohort of source program and target program, you are good to go"""
 """Remember, Parent refers to source program and child refers to target program"""
 

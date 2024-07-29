@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c45f0bb5-0151-4184-aa85-2a0f69cb7ad5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pre requisite setup/pre requisite setup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/role wise action plan setup/role wise action plan setup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/supervision checklist/supervision checklist field setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/action plan type setup/action plan type setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/action plan type setup/action plan type setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enterprise setup/enterprise setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise setup/enterprise setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/home visit - step question config/steps question config.py" beforeDir="false" afterPath="$PROJECT_DIR$/step question config/steps question config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/info.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input setup/input setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/input setup/input_setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pre requisite setup/pre requisite setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/pre requisite setup/pre requisite setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sql query/create vo.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/create vo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/topic setup for group visit/topic setup for group visit .py" beforeDir="false" afterPath="$PROJECT_DIR$/topic setup for group visit/topic setup for group visit .py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,50 +37,51 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.1.executor": "Run",
-    "Python.access control.executor": "Run",
-    "Python.action plan type setup.executor": "Run",
-    "Python.add Designation Hierarchy.executor": "Run",
-    "Python.asset & input mapping.executor": "Run",
-    "Python.asset wise growth form.executor": "Run",
-    "Python.committee formation.executor": "Run",
-    "Python.create vo 2.executor": "Run",
-    "Python.create vo.executor": "Run",
-    "Python.delete collection_point.executor": "Run",
-    "Python.delete enterprise.executor": "Run",
-    "Python.delete group_visit_schedule.executor": "Run",
-    "Python.delete home_visit_details.executor": "Run",
-    "Python.delete home_visit_schedule.executor": "Run",
-    "Python.delete participant_wise_home_visit_activity.executor": "Run",
-    "Python.delete.executor": "Run",
-    "Python.delete2.executor": "Run",
-    "Python.enterprise setup.executor": "Run",
-    "Python.extr1.executor": "Run",
-    "Python.extra.executor": "Run",
-    "Python.followup questionnaire.executor": "Run",
-    "Python.input category.executor": "Run",
-    "Python.input setup.executor": "Run",
-    "Python.insert committee_formation.executor": "Run",
-    "Python.insert enterprise.executor": "Run",
-    "Python.material & home visit mapping.executor": "Run",
-    "Python.material setup.executor": "Run",
-    "Python.optimized swot config mapping.executor": "Run",
-    "Python.optimized.executor": "Run",
-    "Python.prac.executor": "Run",
-    "Python.pre requisite setup.executor": "Run",
-    "Python.reason setup.executor": "Run",
-    "Python.role wise action plan setup.executor": "Run",
-    "Python.steps question config.executor": "Run",
-    "Python.supervision checklist field setup.executor": "Run",
-    "Python.swot config mapping.executor": "Run",
-    "Python.swot name add.executor": "Run",
-    "Python.topic setup for group visit .executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "RifatHomeDevice"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.access control.executor&quot;: &quot;Run&quot;,
+    &quot;Python.action plan type setup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.add Designation Hierarchy.executor&quot;: &quot;Run&quot;,
+    &quot;Python.asset &amp; input mapping.executor&quot;: &quot;Run&quot;,
+    &quot;Python.asset wise growth form.executor&quot;: &quot;Run&quot;,
+    &quot;Python.committee formation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.create vo 2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.create vo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.delete collection_point.executor&quot;: &quot;Run&quot;,
+    &quot;Python.delete enterprise.executor&quot;: &quot;Run&quot;,
+    &quot;Python.delete group_visit_schedule.executor&quot;: &quot;Run&quot;,
+    &quot;Python.delete home_visit_details.executor&quot;: &quot;Run&quot;,
+    &quot;Python.delete home_visit_schedule.executor&quot;: &quot;Run&quot;,
+    &quot;Python.delete participant_wise_home_visit_activity.executor&quot;: &quot;Run&quot;,
+    &quot;Python.delete.executor&quot;: &quot;Run&quot;,
+    &quot;Python.delete2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.enterprise setup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.extr1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.extra.executor&quot;: &quot;Run&quot;,
+    &quot;Python.followup questionnaire.executor&quot;: &quot;Run&quot;,
+    &quot;Python.input category.executor&quot;: &quot;Run&quot;,
+    &quot;Python.input setup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.input_setup_2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.insert committee_formation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.insert enterprise.executor&quot;: &quot;Run&quot;,
+    &quot;Python.material &amp; home visit mapping.executor&quot;: &quot;Run&quot;,
+    &quot;Python.material setup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.optimized swot config mapping.executor&quot;: &quot;Run&quot;,
+    &quot;Python.optimized.executor&quot;: &quot;Run&quot;,
+    &quot;Python.prac.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pre requisite setup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.reason setup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.role wise action plan setup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.steps question config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.supervision checklist field setup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.swot config mapping.executor&quot;: &quot;Run&quot;,
+    &quot;Python.swot name add.executor&quot;: &quot;Run&quot;,
+    &quot;Python.topic setup for group visit .executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;RifatHomeDevice&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\automation\upg automation\sql query\enterprise" />

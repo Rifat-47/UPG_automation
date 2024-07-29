@@ -1,7 +1,7 @@
 reason setup -> cohort on off
 enterprise setup + role wise action plan -> all prog filter + details prog & cohort
 supervision hierarchy -> delete child data
-
+step qsn config -> time
 
 Master Data Management
     - Programme Configuration           -   No Need
@@ -31,34 +31,34 @@ Cohort Configuration
         - Follow up Questionnaire Config-   Completed
         - Create Group Visit            -   No Need
     - Home Visit
-        - SWOT Configuration            -   Completed
-        - Steps Configuration           -   done manually
+        - SWOT Configuration (set + map)-   No need + Completed
+        - Steps Configuration           -   do manually
         - Step Question Configuration   -   Completed
-        - Graduation Configuration      -
+        - Graduation Configuration      -   do manually
         - Material & Home Visit Mapping -   Completed
     - VSSC
-        - Committee Formation           -
-        - Meeting Activity Management   -
+        - Committee Formation           -   No need
+        - Meeting Activity Management   -   No need (need KT)
     - Approval
-        - Approval Hierarchy Configuration-
-    - Group Setup                       -
-    - Asset Setup                       -
+        - Approval Hierarchy Configuration- do manually (need KT)
+    - Group Setup                       -   No Need
+    - Asset Setup                       -   No Need
     - Enterprise Category               -   No Need
     - Enterprise Setup                  -   Completed
-    - Enterprise Mapping                -   TODO
-    - Material Setup                    -   Completed
+    - Enterprise Mapping                -   TODO (need KT)
+    - Material Setup                    -   Completed (need to delete prev)
     - Training Setup                    -   No Need
     - Input Category                    -   Completed
     - Input Setup                       -   Completed
-    - Asset & Input Mapping             -   Completed
+    - Asset & Input Mapping             -   TODO
     - Pre Requisite Setup               -   setup completed & mapping manually
-    - Selection Criteria                -   Done manually
+    - Selection Criteria                -   Do manually
     - Reason Type                       -   No Need
     - Reason                            -   Completed
     - Exclusion                         -   No Need
     - Support Item                      -   No need
     - Wealth Rank                       -   No need
-    - Form Menu Mapping                 -   No need
+    - Form Menu Mapping                 -   Do manually
     - Asset Wise Growth Form            -   Completed
 Form Configuration
     - Form List                         -   No need

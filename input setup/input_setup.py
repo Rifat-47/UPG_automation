@@ -100,6 +100,16 @@ if login_json.status_code == 200:
         print("Program & cohort of parent and child is similar, can't advance further.")
         sys.exit(5)
 
+    child_program_name = selected_child_program_info['Program_name']
+    child_program_id = selected_child_program_info['Program_id']
+    child_cohort_name = selected_child_cohort_info['cohort_name']
+    child_cohort_id = selected_child_cohort_info['cohort_id']
+
+    parent_program_name = selected_parent_program_info['Program_name']
+    parent_program_id = selected_parent_program_info['Program_id']
+    parent_cohort_name = selected_parent_cohort_info['cohort_name']
+    parent_cohort_id = selected_parent_cohort_info['cohort_id']
+
     """stars here"""
     """fetching all inputs data"""
     all_inputs_json = requests.get(
@@ -113,18 +123,13 @@ if login_json.status_code == 200:
 
     current_child_inputs = []
     parent_inputs = []
-    child_program_name = selected_child_program_info['Program_name']
-    child_program_id = selected_child_program_info['Program_id']
-    child_program_cohort = selected_child_cohort_info['cohort_name']
-    child_cohort_id = selected_child_cohort_info['cohort_id']
-    parent_program_name = selected_parent_program_info['Program_name']
 
     # print(selected_parent_program_info)
-    parent_program_cohort = selected_parent_cohort_info['cohort_name']
+    # parent_program_cohort = selected_parent_cohort_info['cohort_name']
     for inputx in all_inputs_info:
-        if inputx["program_name"] == child_program_name and inputx['cohort_name'] == child_program_cohort:
+        if inputx["program_name"] == child_program_name and inputx['cohort_name'] == child_cohort_name:
             current_child_inputs.append(inputx)
-        if inputx["program_name"] == parent_program_name and inputx['cohort_name'] == parent_program_cohort:
+        if inputx["program_name"] == parent_program_name and inputx['cohort_name'] == parent_cohort_name:
             parent_inputs.append(inputx)
 
     print('Parent inputs: ', len(parent_inputs))
@@ -135,8 +140,9 @@ if login_json.status_code == 200:
     for inputy in current_child_inputs:
         cohort_id = selected_child_cohort_info['cohort_id']
         input_setup_id = inputy['id']
-        delete_input_request_json = requests.delete(f"https://upgapstg.brac.net/upg-participant-selection/api/v1/input/setup/by-category-wise-input/{input_setup_id}",
-                                                    headers={'Authorization': f"Bearer {access_token}"})
+        delete_input_request_json = requests.delete(
+            f"https://upgapstg.brac.net/upg-participant-selection/api/v1/input/setup/by-category-wise-input/{input_setup_id}",
+            headers={'Authorization': f"Bearer {access_token}"})
         delete_input_request = json.loads(delete_input_request_json.content)
         # print(delete_input_request)
         if delete_input_request['result']['is_success']:
@@ -148,9 +154,53 @@ if login_json.status_code == 200:
         print(
             f'{child_deleted_input} out of {len(current_child_inputs)} inputs has been deleted.')
 
-    # sys.exit(3)
+    """fetch parent input category"""
+    # parent_input_category_map = {}
+    # parent_input_category_json = requests.get(
+    #     f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/by-cohort/{parent_cohort_id}',
+    #     headers={'Authorization': f"Bearer {access_token}"})
+    # parent_input_category_data = json.loads(parent_input_category_json.content)
+    # parent_input_category_info = parent_input_category_data["resultset"]
+    # for p_input_category in parent_input_category_info:
+    #     parent_input_category_map[p_input_category["type"]] = p_input_category['id']
 
-    """adding input setap data"""
+    """fetch child input category"""
+    # child_input_category_map = {}
+    # child_input_category_json = requests.get(
+    #     f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/by-cohort/{child_cohort_id}',
+    #     headers={'Authorization': f"Bearer {access_token}"})
+    # child_input_category_data = json.loads(child_input_category_json.content)
+    # child_input_category_info = child_input_category_data["resultset"]
+    # for c_input_category in parent_input_category_info:
+    #     child_input_category_map[c_input_category["type"]] = c_input_category['id']
+
+    # final_input_category_map = {parent_input_category_map[key]: child_input_category_map[key] for key in
+    #                          parent_input_category_map}
+
+    """all input categories"""
+    parent_input_category_map = {}
+    child_input_category_map = {}
+    all_input_category_json = requests.get(
+        f"https://upgapstg.brac.net/upg-participant-selection/api/v1/input/get-all",
+        headers={'Authorization': f"Bearer {access_token}"})
+
+    all_input_category_data = json.loads(all_input_category_json.content)
+    all_input_category_info = all_input_category_data['resultset']
+
+    for input_category in all_input_category_info:
+        if input_category['cohort_id'] == parent_cohort_id:
+            parent_input_category_map[input_category['type']] = input_category['id']
+        if input_category['cohort_id'] == child_cohort_id:
+            child_input_category_map[input_category['type']] = input_category['id']
+
+    final_input_category_map = {parent_input_category_map[key]: child_input_category_map[key] for key in
+                                                         parent_input_category_map}
+
+    print(f'Parent input category length: ', len(parent_input_category_map))
+    print(f'Child input category length: ', len(child_input_category_map))
+    print(f'Finally mapped input category length: ', len(final_input_category_map))
+
+    """adding input setup data"""
     print('Updating input setup, please wait...')
     child_input_updated = 0
     for inputz in parent_inputs:
@@ -165,7 +215,7 @@ if login_json.status_code == 200:
             dose_list.append(new_dose)
         data = {
             "list": [{
-                "input_category_id": inputz["input_category_id"],
+                "input_category_id": final_input_category_map[inputz["input_category_id"]],
                 "name": inputz['name'],
                 "cohort_id": child_cohort_id,
                 "is_effect_on_schedule": inputz["is_active"],
@@ -174,8 +224,9 @@ if login_json.status_code == 200:
             }]
         }
         """adding material in child program"""
-        child_input_update_request = requests.post('https://upgapstg.brac.net/upg-participant-selection/api/v1/input/setup',
-                                                   json=data, headers={'Authorization': f"Bearer {access_token}"})
+        child_input_update_request = requests.post(
+            'https://upgapstg.brac.net/upg-participant-selection/api/v1/input/setup',
+            json=data, headers={'Authorization': f"Bearer {access_token}"})
 
         if child_input_update_request.status_code == 200:
             child_input_updated += 1
@@ -189,3 +240,5 @@ if login_json.status_code == 200:
 
 else:
     print('Login failed. Try with correct credentials')
+
+

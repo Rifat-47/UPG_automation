@@ -1,7 +1,8 @@
-"""TO DO"""
-"""add enterprise mapping setup from one program to another program"""
-"""Just select the program and cohort of source program and target program, you are good to go"""
-"""Remember, Parent refers to source program and child refers to target program"""
+"""enterprise mapping from one program to another"""
+"""mandatatory:
+        enterprise category, group, get enterprise by category.
+        enterprise category name, enterprise name must be similer for best result.
+"""
 
 import requests
 import json
@@ -101,83 +102,146 @@ if login_json.status_code == 200:
         print("Program & cohort of parent and child is similar, can't advance further.")
         sys.exit(5)
 
-    """stars here"""
-    """fetching all materials data"""
-    all_materials_json = requests.get(
-        f"https://upgapstg.brac.net/upg-enrollment/api/v1/materials/all",
-        headers={'Authorization': f"Bearer {access_token}"})
-
-    all_materials_data = json.loads(all_materials_json.content)
-    all_materials_info = all_materials_data['resultset']
-
-    print('All material length', len(all_materials_info))
-
-    current_child_materials = []
-    parent_materials = []
     child_program_name = selected_child_program_info['Program_name']
     child_program_id = selected_child_program_info['Program_id']
-    child_program_cohort = selected_child_cohort_info['cohort_name']
+    child_cohort_name = selected_child_cohort_info['cohort_name']
     child_cohort_id = selected_child_cohort_info['cohort_id']
+
     parent_program_name = selected_parent_program_info['Program_name']
+    parent_program_id = selected_parent_program_info['Program_id']
+    parent_cohort_name = selected_parent_cohort_info['cohort_name']
+    parent_cohort_id = selected_parent_cohort_info['cohort_id']
 
-    # print(selected_parent_program_info)
-    parent_program_cohort = selected_parent_cohort_info['cohort_name']
-    for material in all_materials_info:
-        if material["program_name"] == child_program_name and material['cohort_name'] == child_program_cohort:
-            current_child_materials.append(material)
-        if material["program_name"] == parent_program_name and material['cohort_name'] == parent_program_cohort:
-            parent_materials.append(material)
-
-    print('Parent materials', len(parent_materials))
-    print('Current child materials', len(current_child_materials))
-
-    """delete child's existing materials"""
-    child_deleted_material = 0
-    for material in current_child_materials:
-        cohort_id = selected_child_cohort_info['cohort_id']
-        material_id = material['id']
-        delete_material_request_json = requests.delete(f"https://upgapstg.brac.net/upg-enrollment/api/v1/materials/delete/{cohort_id}/{material_id}",
+    """stars here"""
+    """fetching all enterprise mapping data"""
+    all_enterprise_mapping_json = requests.get(f'https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise/group-wise-enterprise/all',
                                                headers={'Authorization': f"Bearer {access_token}"})
-        delete_material_request = json.loads(delete_material_request_json.content)
-        # print(delete_material_request)
-        if delete_material_request['result']['is_success']:
-            child_deleted_material += 1
+    all_enterprise_mapping_data = json.loads(all_enterprise_mapping_json.content)
+    all_enterprise_mapping_info = all_enterprise_mapping_data['resultset']
 
-    if len(current_child_materials) == child_deleted_material:
-        print(f"All existing designation hierarchy deleted. Total {child_deleted_material} deleted.")
+    current_child_enterprise_map_list = []
+    parent_enterprise_map_list = []
+    for single_enterprise_map in all_enterprise_mapping_info:
+        if single_enterprise_map['cohort_id'] == parent_cohort_id:
+            parent_enterprise_map_list.append(single_enterprise_map)
+        if single_enterprise_map['cohort_id'] == child_cohort_id:
+            current_child_enterprise_map_list.append(single_enterprise_map)
+
+    print("Current child enterprise mapping length: ", len(current_child_enterprise_map_list))
+    print('Parent enterprise mapping length: ', len(parent_enterprise_map_list))
+
+    """delete child's existing enterprise mapping"""
+    print('Deleting existing enterprise mapping data, please wait...')
+    child_deleted_enterprise_map = 0
+    for c_enterprise_mapping in current_child_enterprise_map_list:
+        enterprise_mapping_id = c_enterprise_mapping['id']
+        delete_enterprise_mapping_json = requests.delete(
+            f"https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise/group-wise-enterprise/delete/{enterprise_mapping_id}",
+            headers={'Authorization': f"Bearer {access_token}"})
+        delete_enterprise_mapping_request = json.loads(delete_enterprise_mapping_json.content)
+        # print(delete_enterprise_mapping_request)
+        if delete_enterprise_mapping_request['status'] == 'ok':
+            child_deleted_enterprise_map += 1
+
+    if len(current_child_enterprise_map_list) == child_deleted_enterprise_map:
+        print(f"All existing inputs deleted. Total {child_deleted_enterprise_map} deleted.")
     else:
         print(
-            f'{child_deleted_material} out of {len(current_child_materials)} materials has been deleted.')
+            f'{child_deleted_enterprise_map} out of {len(current_child_enterprise_map_list)} inputs has been deleted.')
 
-    # sys.exit(3)
+    """child enterprise category"""
+    child_enterprise_category = {}
+    all_enterprise_category_json = requests.get(f'https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise-category/all',
+                                                headers={'Authorization': f"Bearer {access_token}"})
+    all_enterprise_category_data = json.loads(all_enterprise_category_json.content)
+    for enterprise_category in all_enterprise_category_data['resultset']:
+        if enterprise_category['cohort_id'] == child_cohort_id:
+            child_enterprise_category[enterprise_category["name"]] = enterprise_category["id"]
 
-    """adding material setap data"""
-    print('Updating material setup, please wait...')
-    child_material_updated = 0
-    for material in parent_materials:
-        data = {
-            "name": material["name"],
-            "cohort_id": child_cohort_id,
-            "program_id": child_program_id,
-            "cohort_name": material["cohort_name"],
-            "program_name": child_program_name,
-            "description": material["description"],
-            "file": material["file"]
-        }
+    """child: get enterprises by category id"""
+    # child_enterprise_category = {'category_name': 'id'}
+    get_enterprise_by_category_map = {}
+    for c_enterprise_category in child_enterprise_category:
+        category_id = child_enterprise_category[c_enterprise_category]
+        get_enterprise_by_category_json = requests.get(f'https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise/get-enterprise-by-category/{category_id}',
+                                                       headers={'Authorization': f"Bearer {access_token}"})
+        get_enterprise_by_category_data = json.loads(get_enterprise_by_category_json.content)['resultset']
+        extra_dic = {}
+        for x in get_enterprise_by_category_data:
+            extra_dic[x["name"]] = x["id"]
+        get_enterprise_by_category_map[c_enterprise_category] = extra_dic
+    # print(get_enterprise_by_category_map)
+        # break
 
-        """adding material in child program"""
-        child_material_update_request = requests.post('https://upgapstg.brac.net/upg-enrollment/api/v1/materials/create',
-                                                      json=data, headers={'Authorization': f"Bearer {access_token}"})
+    """child program groups"""
+    child_all_groups_json = requests.get(f'https://upgapstg.brac.net/upg-participant-selection/api/v1/{child_cohort_id}/group',
+                                         headers={'Authorization': f"Bearer {access_token}"})
+    child_all_groups_data = json.loads(child_all_groups_json.content)
+    child_all_groups_info = child_all_groups_data['resultset']
 
-        if child_material_update_request.status_code == 200:
-            child_material_updated += 1
+    """update enterprise mapping to child"""
+    print('Updating enterprise mapping setup, please wait...')
+    enterprise_mapping_updated = 0
+    # print('get_enterprise_by_category_map: ', get_enterprise_by_category_map)
+
+    for enterprise_map in parent_enterprise_map_list:
+        category_name_key = ''
+        if (enterprise_map["enterprise_category_name"]).endswith('.'):
+            alert = enterprise_map["enterprise_category_name"]
+            category_name_key = alert[:-1]
         else:
-            print(data)
+            category_name_key = enterprise_map["enterprise_category_name"]
+        enterprise_category_id = child_enterprise_category.get(category_name_key)
+        required_group = None
+        for group in child_all_groups_info:
+            if enterprise_map["group_name"].lower()[-1] == group["group"].lower()[-1]:
+                required_group = group
+                break
 
-    if len(parent_materials) == child_material_updated:
-        print(f'Everything updated! {child_material_updated} out of {len(parent_materials)}')
+        all_enterprises = get_enterprise_by_category_map.get(category_name_key)
+        if all_enterprises is None:
+            print("None: ", enterprise_map["enterprise_category_name"])
+        else:
+            required_enterprise_id = all_enterprises.get(enterprise_map["enterprise_option_name"])
+
+            data = {
+                "id": None,
+                "cohort_id": child_cohort_id,
+                "program_id": child_program_id,
+                "is_active": enterprise_map["is_active"],
+                "cohort_name": child_cohort_name,
+                "program_name": child_program_name,
+                "enterprise_category_name": enterprise_map["enterprise_category_name"],
+                "enterprise_option_name": enterprise_map["enterprise_option_name"],
+                "grant_in_percentage": enterprise_map["grant_in_percentage"],
+                "loan_in_percentage": enterprise_map["loan_in_percentage"],
+                "budget": enterprise_map["given_budget"],
+                "max_amount_of_main_asset": enterprise_map["max_amount_of_main_asset"],
+                "max_amount_of_supporting_asset": enterprise_map["max_amount_of_supporting_asset"],
+                "number_of_installment": required_group["no_of_installment"],
+                "bi_weekly_install": enterprise_map["bi_weekly_install"],
+                "enterprise_category_id": enterprise_category_id,
+                "enterprise_id": required_enterprise_id,
+                "group_id": required_group["id"],
+                "group_name": required_group["group"],
+            }
+            # print(data)
+            # break
+
+            """adding enterprise mapping in child program"""
+            child_enterprise_mapping_update_request = requests.post(
+                'https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise/group-wise-enterprise/add',
+                json=data, headers={'Authorization': f"Bearer {access_token}"})
+
+            if child_enterprise_mapping_update_request.status_code == 200:
+                enterprise_mapping_updated += 1
+            else:
+                print(data)
+
+    if len(parent_enterprise_map_list) == enterprise_mapping_updated:
+        print(f'Everything updated! {enterprise_mapping_updated} out of {len(parent_enterprise_map_list)}')
     else:
-        print(f'{child_material_updated} data updated out of {len(parent_materials)}')
+        print(f'{enterprise_mapping_updated} data updated out of {len(parent_enterprise_map_list)}')
 
 else:
     print('Login failed. Try with correct credentials')

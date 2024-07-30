@@ -1,5 +1,6 @@
 """home visit steps question from one program to another program"""
 """Just select the program and cohort of source program and target program, you are good to go"""
+"""NB: Home visit - steps config is a must for doing this task"""
 """Remember, Parent refers to source program and child refers to target program"""
 
 import requests
@@ -202,7 +203,8 @@ try:
                     break
             if home_visit_step_id == '':
                 print(f'Step id not matched for {single_step['title']}')
-                break
+                # break
+                continue
 
             if len(all_question_single_step_data) > 0:
                 new_question_added = 0

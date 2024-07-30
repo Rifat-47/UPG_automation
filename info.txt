@@ -45,7 +45,7 @@ Cohort Configuration
     - Asset Setup                       -   No Need
     - Enterprise Category               -   No Need
     - Enterprise Setup                  -   Completed
-    - Enterprise Mapping                -   TODO (need KT)
+    - Enterprise Mapping                -   Completed
     - Material Setup                    -   Completed (need to delete prev)
     - Training Setup                    -   No Need
     - Input Category                    -   Completed
@@ -61,7 +61,7 @@ Cohort Configuration
     - Form Menu Mapping                 -   Do manually
     - Asset Wise Growth Form            -   Completed
 Form Configuration
-    - Form List                         -   No need
+    - Form List                         -   Do manually
 Report
     - Enterprise Selection Report       -   No need
     - Miscellaneous                     -

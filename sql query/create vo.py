@@ -12,11 +12,12 @@ import string
 #                 '3010', '4508', '4816', '0249', '9002', '9146',
 #                 '10038', '10039', '9255', '9179']
 
-branch_codes = ['111724']
+branch_codes = ['0873']
 
-random_vo_no = 1954
+# random vo 1959
+random_vo_no = 5485
 total_vo = 1
-member_in_vo = 10
+member_in_vo = 5
 
 def generate_random_name(length=5):
     letters = string.ascii_uppercase

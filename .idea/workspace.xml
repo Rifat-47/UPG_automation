@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c45f0bb5-0151-4184-aa85-2a0f69cb7ad5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/enterprise mapping/enterprise mapping 2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enterprise mapping/extra.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/add approval category.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enterprise mapping/enterprise mapping.py" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise mapping/enterprise mapping.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enterprise setup/enterprise setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise setup/enterprise setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/info.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/material &amp; home visit mapping/material &amp; home visit mapping.py" beforeDir="false" afterPath="$PROJECT_DIR$/material &amp; home visit mapping/material &amp; home visit mapping.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql query/Book1.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/Book1.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sql query/create vo.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/create vo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step question config/steps question config.py" beforeDir="false" afterPath="$PROJECT_DIR$/step question config/steps question config.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +41,7 @@
     "Python.access control.executor": "Run",
     "Python.action plan type setup.executor": "Run",
     "Python.add Designation Hierarchy.executor": "Run",
+    "Python.add approval category.executor": "Run",
     "Python.asset & input mapping.executor": "Run",
     "Python.asset input mapping 2.executor": "Run",
     "Python.asset wise growth form.executor": "Run",

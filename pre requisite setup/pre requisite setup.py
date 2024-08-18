@@ -6,22 +6,48 @@ import requests
 import json
 import sys
 
+print('Welcome to UPG programme configuration!')
+print('***** All Environments *****:')
+environment = {
+    '1': ['Stage', 'https://upgapstg.brac.net'],
+    '2': ['Training', 'https://trainingupg.brac.net'],
+    '3': ['Production', 'https://upgbd.brac.net']
+}
+
+for env in environment:
+    print(env, environment[env][0])
+
+# print('$$$ Select Environment:')
+selected_environment = str(input('$$$ Select Environment: '))
+base_url = ''
+credential = {"email": "admin@brac.net", "password": "123456"}
+for env in environment:
+    if environment[selected_environment][0] == environment[env][0]:
+        base_url = environment[env][1]
+        if environment[env][0].upper() == 'PRODUCTION':
+            credential = {"email": "admin@brac.net", "password": "12345@#"}
+        break
+
 # getting access token by login
-login_json = requests.post('https://upgapstg.brac.net/upg-auth/api/v1/account/login',
-                          data ={"email": "admin@brac.net","password": "123456"})
+login_json = requests.post(f'{base_url}/upg-auth/api/v1/account/login',
+                          data = credential)
 
 if login_json.status_code == 200:
-    print('logged in successfully')
+    print('Success! Logged in successfully!!')
     # deserialize a JSON formatted string into a Python object
     login_data = json.loads(login_json.content)
 
     access_token = login_data['result']['access_token']
 
     # Fetch program and cohort data in a single API call
-    program_data = requests.get('https://upgapstg.brac.net/upg-participant-selection/api/v1/program',
+    program_data = requests.get(f'{base_url}/upg-participant-selection/api/v1/program',
                                 headers={'Authorization': f"Bearer {access_token}"})
     program_info = json.loads(program_data.content)
-    all_program = program_info['resultset']
+    all_program_set = program_info['resultset']
+    all_program = []
+    for programme in all_program_set:
+        if programme['is_active']:
+            all_program.append(programme)
 
     # Initialize program dictionary
     program_dictionary = []
@@ -33,19 +59,19 @@ if login_json.status_code == 200:
             cohorts_data = []
             # Fetch cohorts data for the current program
             cohorts_of_program_json = requests.get(
-                f'https://upgapstg.brac.net/upg-participant-selection/api/v1/cohort/{program["id"]}',
+                f'{base_url}/upg-participant-selection/api/v1/cohort/{program["id"]}',
                 headers={'Authorization': f"Bearer {access_token}"})
             cohorts_of_program_info = json.loads(cohorts_of_program_json.content)
             cohorts_values = cohorts_of_program_info['resultset']
             # Iterate over cohorts of the program
             cohort_serial = 0
-            for cohort_index, cohort in enumerate(cohorts_values):
-                if cohort['is_active']:
+            for single_cohort in cohorts_values:
+                if single_cohort['is_active']:
                     cohort_serial += 1
                     cohorts_data.append({
                         'cohort_serial': cohort_serial,
-                        'cohort_name': cohort['cohort'],
-                        'cohort_id': cohort['id']
+                        'cohort_name': single_cohort['cohort'],
+                        'cohort_id': single_cohort['id']
                     })
 
             # Add program info with cohorts to program_dictionary
@@ -64,7 +90,6 @@ if login_json.status_code == 200:
     # Select parent program and cohort
     selected_parent_program = int(input('$$$$$ Select Parent Program: '))
     selected_parent_program_info = program_dictionary[selected_parent_program - 1]  # Adjusting index
-    # print(selected_parent_program_info)
     print(f"Select Cohort of {selected_parent_program_info['Program_name']}: ")
 
     for cohort in selected_parent_program_info['Cohorts']:
@@ -75,7 +100,6 @@ if login_json.status_code == 200:
     selected_parent_cohort_info = selected_parent_program_info['Cohorts'][
         selected_parent_cohort - 1]  # Adjusting index
     parent = selected_parent_program_info['Program_name'] + ' ' + selected_parent_cohort_info['cohort_name']
-
 
     ##### Select child program and cohort
     print("*****Now, select Child program and cohort*****")
@@ -94,8 +118,6 @@ if login_json.status_code == 200:
     selected_child_cohort_info = selected_child_program_info['Cohorts'][selected_child_cohort - 1]  # Adjusting index
     child = selected_child_program_info['Program_name'] + " " + selected_child_cohort_info['cohort_name']
 
-    # print(parent)
-    # print(child)
     if parent == child:
         print("Program & cohort of parent and child is similar, can't advance further.")
         sys.exit(5)
@@ -110,9 +132,10 @@ if login_json.status_code == 200:
     parent_cohort_name = selected_parent_cohort_info['cohort_name']
     parent_cohort_id = selected_parent_cohort_info['cohort_id']
 
+    """main code starts here"""
     """fetch all existing pre requisite"""
     all_pre_requisite_json = requests.get(
-        f'https://upgapstg.brac.net/upg-participant-selection/api/v1/prerequisite/get-all-prerequisite-setup',
+        f'{base_url}/upg-participant-selection/api/v1/prerequisite/get-all-prerequisite-setup',
         headers={'Authorization': f"Bearer {access_token}"})
     all_pre_requisite_data = json.loads(all_pre_requisite_json.content)
     all_pre_requisite_info = all_pre_requisite_data['resultset']
@@ -130,15 +153,18 @@ if login_json.status_code == 200:
     print('Current child pre requisite: ', len(child_pre_requisite))
     
     """delete child's existing pre requisite"""
+    print("Deleting existing prerequisite, please wait...")
     child_deleted_pre_requisite = 0
     for c_pre_requisite in child_pre_requisite:
         pre_requisite_id = c_pre_requisite['id']
         delete_pre_requisite_request_json = requests.delete(
-            f"https://upgapstg.brac.net/upg-participant-selection/api/v1/prerequisite/delete-prerequisite/{child_cohort_id}/{pre_requisite_id}",
+            f"{base_url}/upg-participant-selection/api/v1/prerequisite/delete-prerequisite/{child_cohort_id}/{pre_requisite_id}",
             headers={'Authorization': f"Bearer {access_token}"})
         delete_pre_requisite_request = json.loads(delete_pre_requisite_request_json.content)
         if delete_pre_requisite_request['status'] == 'ok':
             child_deleted_pre_requisite += 1
+        else:
+            print(f"Error: Cant delete, cohort {child_cohort_id} & prerequisite id {pre_requisite_id}")
 
     if len(child_pre_requisite) == child_deleted_pre_requisite:
         print(f"All existing pre requisite deleted. Total {child_deleted_pre_requisite} deleted.")
@@ -146,9 +172,8 @@ if login_json.status_code == 200:
         print(
             f'{child_deleted_pre_requisite} out of {len(child_pre_requisite)} pre requisite has been deleted.')
 
-    """adding pre requisite setap data"""
+    """adding pre requisite setup data"""
     print('Updating pre requisite setup, please wait...')
-
     child_pre_requisite_updated = 0
     for p_pre_requisite in parent_pre_requisite:
         data = {
@@ -161,13 +186,13 @@ if login_json.status_code == 200:
         }
 
         """adding material in child program"""
-        child_pre_requisite_update_request = requests.post('https://upgapstg.brac.net/upg-participant-selection/api/v1/prerequisite/prerequisite',
+        child_pre_requisite_update_request_json = requests.post(f'{base_url}/upg-participant-selection/api/v1/prerequisite/prerequisite',
                                                    json=data, headers={'Authorization': f"Bearer {access_token}"})
-
-        if child_pre_requisite_update_request.status_code == 200:
+        child_pre_requisite_update_request = json.loads(child_pre_requisite_update_request_json.content)
+        if child_pre_requisite_update_request['status'] == 'ok':
             child_pre_requisite_updated += 1
         else:
-            print(data)
+            print(f"Error: Can't update: {data}")
 
     if len(parent_pre_requisite) == child_pre_requisite_updated:
         print(f'Everything updated! {child_pre_requisite_updated} out of {len(parent_pre_requisite)}')
@@ -175,7 +200,7 @@ if login_json.status_code == 200:
         print(f'{child_pre_requisite_updated} data updated out of {len(parent_pre_requisite)}')
 
 else:
-    print('Login failed. Try with correct credentials')
+    print('Error: Login failed. Try with correct credentials')
 
 
 

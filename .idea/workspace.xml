@@ -5,10 +5,53 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c45f0bb5-0151-4184-aa85-2a0f69cb7ad5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/sql query/add approval category.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/audit trail/final audit trial csv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/committee meeting/add committee_meeting_activity_criteria.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete module 3/delete asset_scan_form.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete module 3/delete asset_scan_task csv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete module 3/delete asset_transfer csv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete module 3/delete collection_point csv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete module 3/delete home_visit_details csv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete module 3/delete home_visit_schedule.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete module 3/delete loan_disbursement csv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/delete module 3/delete vo csv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/enterprise/delete enterprise csv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/enterprise/delete group_wise_enterprise csv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/input category/delete input category csv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/swot action point/add swot_action_point.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/swot/delete swot csv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/swot/delete swot type csv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql query/user/delete working_area csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/upg automation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/upg automation.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Followup Questionnaire Config/followup questionnaire.py" beforeDir="false" afterPath="$PROJECT_DIR$/Followup Questionnaire Config/followup questionnaire.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/access control management/access control.py" beforeDir="false" afterPath="$PROJECT_DIR$/access control management/access control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/action plan type setup/action plan type setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/action plan type setup/action plan type setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/asset &amp; input mapping/asset input mapping.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset &amp; input mapping/asset input mapping.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/asset wise growth form/asset wise growth form.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset wise growth form/asset wise growth form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/designation hierarchy/add Designation Hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/designation hierarchy/add Designation Hierarchy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise mapping/enterprise mapping.py" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise mapping/enterprise mapping.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise setup/enterprise setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise setup/enterprise setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise setup/extra.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/approval category add/add approval category csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/info.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input category/input category.py" beforeDir="false" afterPath="$PROJECT_DIR$/input category/input category.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input setup/input_setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/input setup/input_setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material &amp; home visit mapping/material &amp; home visit mapping.py" beforeDir="false" afterPath="$PROJECT_DIR$/material &amp; home visit mapping/material &amp; home visit mapping.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material setup/material setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/material setup/material setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material setup/optimized material setup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pre requisite setup/pre requisite setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/pre requisite setup/pre requisite setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reason setup/reason setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/reason setup/reason setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/sql query/Book1.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/Book1.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql query/add approval category.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/approval category add/add approval category.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sql query/create vo.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/create vo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql query/enterprise/delete enterprise.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql query/enterprise/insert enterprise.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql query/enterprise/insert enterprise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/step question config/steps question config.py" beforeDir="false" afterPath="$PROJECT_DIR$/step question config/steps question config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supervision checklist/supervision checklist field setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/supervision checklist/supervision checklist field setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supervision hierarchy/Supervision Hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/supervision hierarchy/Supervision Hierarchy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swot configuration/swot config mapping.py" beforeDir="false" afterPath="$PROJECT_DIR$/swot configuration/swot config &amp; mapping.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/topic setup for group visit/topic setup for group visit .py" beforeDir="false" afterPath="$PROJECT_DIR$/topic setup for group visit/topic setup for group visit .py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,31 +84,61 @@
     "Python.access control.executor": "Run",
     "Python.action plan type setup.executor": "Run",
     "Python.add Designation Hierarchy.executor": "Run",
+    "Python.add approval category csv.executor": "Run",
     "Python.add approval category.executor": "Run",
+    "Python.add committee_meeting_activity_criteria.executor": "Run",
+    "Python.add member to vo.executor": "Run",
+    "Python.add swot_action_point.executor": "Run",
     "Python.asset & input mapping.executor": "Run",
     "Python.asset input mapping 2.executor": "Run",
+    "Python.asset input mapping.executor": "Run",
     "Python.asset wise growth form.executor": "Run",
+    "Python.audit trail 2 csv.executor": "Run",
+    "Python.audit trail1.executor": "Run",
+    "Python.audit trail2.executor": "Run",
     "Python.committee formation.executor": "Run",
     "Python.create vo 2.executor": "Run",
     "Python.create vo.executor": "Run",
+    "Python.db1.executor": "Run",
+    "Python.delete asset_scan_form.executor": "Run",
+    "Python.delete asset_scan_task csv.executor": "Run",
+    "Python.delete asset_transfer csv.executor": "Run",
+    "Python.delete collection_point csv.executor": "Run",
     "Python.delete collection_point.executor": "Run",
+    "Python.delete enterprise csv.executor": "Run",
     "Python.delete enterprise.executor": "Run",
     "Python.delete group_visit_schedule.executor": "Run",
+    "Python.delete group_wise_enterprise csv.executor": "Run",
+    "Python.delete home_visit_details csv.executor": "Run",
     "Python.delete home_visit_details.executor": "Run",
     "Python.delete home_visit_schedule.executor": "Run",
+    "Python.delete input category csv.executor": "Run",
+    "Python.delete loan_disbursement csv.executor": "Run",
     "Python.delete participant_wise_home_visit_activity.executor": "Run",
+    "Python.delete swot csv.executor": "Run",
+    "Python.delete swot type csv.executor": "Run",
+    "Python.delete vo csv.executor": "Run",
+    "Python.delete working_area csv.executor": "Run",
     "Python.delete.executor": "Run",
     "Python.delete2.executor": "Run",
     "Python.enterprise mapping 2.executor": "Run",
     "Python.enterprise mapping.executor": "Run",
     "Python.enterprise setup.executor": "Run",
     "Python.extr1.executor": "Run",
+    "Python.extra material setup.executor": "Run",
     "Python.extra.executor": "Run",
+    "Python.extra1.executor": "Run",
+    "Python.final audit trial csv.executor": "Run",
+    "Python.final audit trial.executor": "Run",
     "Python.followup questionnaire.executor": "Run",
+    "Python.hudai 1.executor": "Run",
+    "Python.hudai 2.executor": "Run",
     "Python.input category.executor": "Run",
     "Python.input setup.executor": "Run",
+    "Python.input_setup.executor": "Run",
     "Python.input_setup_2.executor": "Run",
     "Python.insert committee_formation.executor": "Run",
+    "Python.insert enterprise csv.executor": "Run",
     "Python.insert enterprise.executor": "Run",
     "Python.material & home visit mapping.executor": "Run",
     "Python.material setup.executor": "Run",
@@ -77,15 +150,21 @@
     "Python.role wise action plan setup.executor": "Run",
     "Python.steps question config.executor": "Run",
     "Python.supervision checklist field setup.executor": "Run",
+    "Python.swot config & mapping.executor": "Run",
     "Python.swot config mapping.executor": "Run",
     "Python.swot name add.executor": "Run",
     "Python.topic setup for group visit .executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "RifatHomeDevice"
+    "git-widget-placeholder": "RifatHomeDevice",
+    "last_opened_file_path": "E:/automation/upg automation/sql query/enterprise"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\automation\upg automation\sql query\enterprise" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\automation\upg automation\sql query\approval category add" />
       <recent name="E:\automation\upg automation\sql query\enterprise" />
       <recent name="E:\automation\upg automation\sql query" />
     </key>

@@ -2,28 +2,59 @@
 """mandatatory:
         enterprise category, group, get enterprise by category.
         enterprise category name, enterprise name must be similer for best result.
+        can delete enterprise mapping id from db in participant_wise_enterprise table
+        
+        query demo:
+        SELECT * from participant_wise_enterprise WHERE participant_name='Sumana Almeida' ALLOW FILTERING;
+        DELETE from participant_wise_enterprise WHERE participant_id= 4a3f90ad-0607-4c88-b565-f19eda1dd66e;
 """
 
 import requests
 import json
 import sys
 
+print('Welcome to UPG programme configuration!')
+print('***** All Environments *****:')
+environment = {
+    '1': ['Stage', 'https://upgapstg.brac.net'],
+    '2': ['Training', 'https://trainingupg.brac.net'],
+    '3': ['Production', 'https://upgbd.brac.net']
+}
+
+for env in environment:
+    print(env, environment[env][0])
+
+# print('$$$ Select Environment:')
+selected_environment = str(input('$$$ Select Environment: '))
+base_url = ''
+credential = {"email": "admin@brac.net", "password": "123456"}
+for env in environment:
+    if environment[selected_environment][0] == environment[env][0]:
+        base_url = environment[env][1]
+        if environment[env][0].upper() == 'PRODUCTION':
+            credential = {"email": "admin@brac.net", "password": "12345@#"}
+        break
+
 # getting access token by login
-login_json = requests.post('https://upgapstg.brac.net/upg-auth/api/v1/account/login',
-                          data ={"email": "admin@brac.net","password": "123456"})
+login_json = requests.post(f'{base_url}/upg-auth/api/v1/account/login',
+                          data = credential)
 
 if login_json.status_code == 200:
-    print('logged in successfully')
+    print('Success! Logged in successfully!!')
     # deserialize a JSON formatted string into a Python object
     login_data = json.loads(login_json.content)
 
     access_token = login_data['result']['access_token']
 
     # Fetch program and cohort data in a single API call
-    program_data = requests.get('https://upgapstg.brac.net/upg-participant-selection/api/v1/program',
+    program_data = requests.get(f'{base_url}/upg-participant-selection/api/v1/program',
                                 headers={'Authorization': f"Bearer {access_token}"})
     program_info = json.loads(program_data.content)
-    all_program = program_info['resultset']
+    all_program_set = program_info['resultset']
+    all_program = []
+    for programme in all_program_set:
+        if programme['is_active']:
+            all_program.append(programme)
 
     # Initialize program dictionary
     program_dictionary = []
@@ -35,19 +66,19 @@ if login_json.status_code == 200:
             cohorts_data = []
             # Fetch cohorts data for the current program
             cohorts_of_program_json = requests.get(
-                f'https://upgapstg.brac.net/upg-participant-selection/api/v1/cohort/{program["id"]}',
+                f'{base_url}/upg-participant-selection/api/v1/cohort/{program["id"]}',
                 headers={'Authorization': f"Bearer {access_token}"})
             cohorts_of_program_info = json.loads(cohorts_of_program_json.content)
             cohorts_values = cohorts_of_program_info['resultset']
             # Iterate over cohorts of the program
             cohort_serial = 0
-            for cohort_index, cohort in enumerate(cohorts_values):
-                if cohort['is_active']:
+            for single_cohort in cohorts_values:
+                if single_cohort['is_active']:
                     cohort_serial += 1
                     cohorts_data.append({
                         'cohort_serial': cohort_serial,
-                        'cohort_name': cohort['cohort'],
-                        'cohort_id': cohort['id']
+                        'cohort_name': single_cohort['cohort'],
+                        'cohort_id': single_cohort['id']
                     })
 
             # Add program info with cohorts to program_dictionary
@@ -66,7 +97,6 @@ if login_json.status_code == 200:
     # Select parent program and cohort
     selected_parent_program = int(input('$$$$$ Select Parent Program: '))
     selected_parent_program_info = program_dictionary[selected_parent_program - 1]  # Adjusting index
-    # print(selected_parent_program_info)
     print(f"Select Cohort of {selected_parent_program_info['Program_name']}: ")
 
     for cohort in selected_parent_program_info['Cohorts']:
@@ -78,8 +108,7 @@ if login_json.status_code == 200:
         selected_parent_cohort - 1]  # Adjusting index
     parent = selected_parent_program_info['Program_name'] + ' ' + selected_parent_cohort_info['cohort_name']
 
-
-    ##### Select child program and cohort
+    # Select child program and cohort
     print("*****Now, select Child program and cohort*****")
     print('All Programs:')
     for program in program_dictionary:
@@ -96,8 +125,6 @@ if login_json.status_code == 200:
     selected_child_cohort_info = selected_child_program_info['Cohorts'][selected_child_cohort - 1]  # Adjusting index
     child = selected_child_program_info['Program_name'] + " " + selected_child_cohort_info['cohort_name']
 
-    # print(parent)
-    # print(child)
     if parent == child:
         print("Program & cohort of parent and child is similar, can't advance further.")
         sys.exit(5)
@@ -114,7 +141,7 @@ if login_json.status_code == 200:
 
     """stars here"""
     """fetching all enterprise mapping data"""
-    all_enterprise_mapping_json = requests.get(f'https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise/group-wise-enterprise/all',
+    all_enterprise_mapping_json = requests.get(f'{base_url}/upg-participant-selection/api/v1/enterprise/group-wise-enterprise/all',
                                                headers={'Authorization': f"Bearer {access_token}"})
     all_enterprise_mapping_data = json.loads(all_enterprise_mapping_json.content)
     all_enterprise_mapping_info = all_enterprise_mapping_data['resultset']
@@ -136,22 +163,25 @@ if login_json.status_code == 200:
     for c_enterprise_mapping in current_child_enterprise_map_list:
         enterprise_mapping_id = c_enterprise_mapping['id']
         delete_enterprise_mapping_json = requests.delete(
-            f"https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise/group-wise-enterprise/delete/{enterprise_mapping_id}",
+            f"{base_url}/upg-participant-selection/api/v1/enterprise/group-wise-enterprise/delete/{enterprise_mapping_id}",
             headers={'Authorization': f"Bearer {access_token}"})
         delete_enterprise_mapping_request = json.loads(delete_enterprise_mapping_json.content)
-        # print(delete_enterprise_mapping_request)
-        if delete_enterprise_mapping_request['status'] == 'ok':
-            child_deleted_enterprise_map += 1
+        if 'status' in delete_enterprise_mapping_request:
+            if delete_enterprise_mapping_request['status'] == 'ok':
+                child_deleted_enterprise_map += 1
+        else:
+            print(f"Error: Can't delete, enterprise mapping id: {enterprise_mapping_id}")
 
     if len(current_child_enterprise_map_list) == child_deleted_enterprise_map:
-        print(f"All existing inputs deleted. Total {child_deleted_enterprise_map} deleted.")
+        print(f"All existing enterprise mapping deleted. Total {child_deleted_enterprise_map} deleted.")
     else:
-        print(
-            f'{child_deleted_enterprise_map} out of {len(current_child_enterprise_map_list)} inputs has been deleted.')
+        print(f'{child_deleted_enterprise_map} out of {len(current_child_enterprise_map_list)} enterprise mapping has been deleted.')
+        print(f"Delete participant from DB (table: participant_wise_enterprise).")
+        sys.exit(10)
 
     """child enterprise category"""
     child_enterprise_category = {}
-    all_enterprise_category_json = requests.get(f'https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise-category/all',
+    all_enterprise_category_json = requests.get(f'{base_url}/upg-participant-selection/api/v1/enterprise-category/all',
                                                 headers={'Authorization': f"Bearer {access_token}"})
     all_enterprise_category_data = json.loads(all_enterprise_category_json.content)
     for enterprise_category in all_enterprise_category_data['resultset']:
@@ -163,18 +193,16 @@ if login_json.status_code == 200:
     get_enterprise_by_category_map = {}
     for c_enterprise_category in child_enterprise_category:
         category_id = child_enterprise_category[c_enterprise_category]
-        get_enterprise_by_category_json = requests.get(f'https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise/get-enterprise-by-category/{category_id}',
+        get_enterprise_by_category_json = requests.get(f'{base_url}/upg-participant-selection/api/v1/enterprise/get-enterprise-by-category/{category_id}',
                                                        headers={'Authorization': f"Bearer {access_token}"})
         get_enterprise_by_category_data = json.loads(get_enterprise_by_category_json.content)['resultset']
         extra_dic = {}
         for x in get_enterprise_by_category_data:
             extra_dic[x["name"]] = x["id"]
         get_enterprise_by_category_map[c_enterprise_category] = extra_dic
-    # print(get_enterprise_by_category_map)
-        # break
 
     """child program groups"""
-    child_all_groups_json = requests.get(f'https://upgapstg.brac.net/upg-participant-selection/api/v1/{child_cohort_id}/group',
+    child_all_groups_json = requests.get(f'{base_url}/upg-participant-selection/api/v1/{child_cohort_id}/group',
                                          headers={'Authorization': f"Bearer {access_token}"})
     child_all_groups_data = json.loads(child_all_groups_json.content)
     child_all_groups_info = child_all_groups_data['resultset']
@@ -182,7 +210,6 @@ if login_json.status_code == 200:
     """update enterprise mapping to child"""
     print('Updating enterprise mapping setup, please wait...')
     enterprise_mapping_updated = 0
-    # print('get_enterprise_by_category_map: ', get_enterprise_by_category_map)
 
     for enterprise_map in parent_enterprise_map_list:
         category_name_key = ''
@@ -200,10 +227,11 @@ if login_json.status_code == 200:
 
         all_enterprises = get_enterprise_by_category_map.get(category_name_key)
         if all_enterprises is None:
-            print("None: ", enterprise_map["enterprise_category_name"])
+            print("Error: None- ", enterprise_map["enterprise_category_name"])
+        elif required_group is None:
+            print(f"Known Error: group not matched for {enterprise_map["group_name"].lower()}")
         else:
             required_enterprise_id = all_enterprises.get(enterprise_map["enterprise_option_name"])
-
             data = {
                 "id": None,
                 "cohort_id": child_cohort_id,
@@ -225,12 +253,10 @@ if login_json.status_code == 200:
                 "group_id": required_group["id"],
                 "group_name": required_group["group"],
             }
-            # print(data)
-            # break
 
             """adding enterprise mapping in child program"""
             child_enterprise_mapping_update_request = requests.post(
-                'https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise/group-wise-enterprise/add',
+                f'{base_url}/upg-participant-selection/api/v1/enterprise/group-wise-enterprise/add',
                 json=data, headers={'Authorization': f"Bearer {access_token}"})
 
             if child_enterprise_mapping_update_request.status_code == 200:
@@ -242,6 +268,5 @@ if login_json.status_code == 200:
         print(f'Everything updated! {enterprise_mapping_updated} out of {len(parent_enterprise_map_list)}')
     else:
         print(f'{enterprise_mapping_updated} data updated out of {len(parent_enterprise_map_list)}')
-
 else:
-    print('Login failed. Try with correct credentials')
+    print('Error: Login failed. Try with correct credentials')

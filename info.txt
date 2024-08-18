@@ -40,7 +40,7 @@ Cohort Configuration
         - Committee Formation           -   No need
         - Meeting Activity Management   -   No need (need KT)
     - Approval
-        - Approval Hierarchy Configuration- do manually (need KT)
+        - Approval Hierarchy Configuration- do manually
     - Group Setup                       -   No Need
     - Asset Setup                       -   No Need
     - Enterprise Category               -   No Need
@@ -52,14 +52,14 @@ Cohort Configuration
     - Input Setup                       -   Completed
     - Asset & Input Mapping             -   Completed
     - Pre Requisite Setup + mapping     -   setup completed & mapping manually
-    - Selection Criteria                -   Do manually
+    - Selection Criteria + mapping      -   Do manually
     - Reason Type                       -   No Need
     - Reason                            -   Completed
     - Exclusion                         -   No Need
     - Support Item                      -   No need
     - Wealth Rank                       -   No need
     - Form Menu Mapping                 -   Do manually
-    - Asset Wise Growth Form            -   Completed
+    - Asset Wise Growth Form            -   manual better but Completed
 Form Configuration
     - Form List                         -   Do manually
 Report

@@ -23,40 +23,43 @@ if login_json.status_code == 200:
     program_data = requests.get('https://upgapstg.brac.net/upg-participant-selection/api/v1/program',
                                 headers={'Authorization': f"Bearer {access_token}"})
     program_info = json.loads(program_data.content)
-    all_program = program_info['resultset']
+    all_program_set = program_info['resultset']
+    all_program = []
+    for programme in all_program_set:
+        if programme['is_active']:
+            all_program.append(programme)
 
     # Initialize program dictionary
     program_dictionary = []
 
     # Iterate over programs
     for index, program in enumerate(all_program):
-        if program['is_active']:
-            # Initialize cohorts list for each program
-            cohorts_data = []
-            # Fetch cohorts data for the current program
-            cohorts_of_program_json = requests.get(
-                f'https://upgapstg.brac.net/upg-participant-selection/api/v1/cohort/{program["id"]}',
-                headers={'Authorization': f"Bearer {access_token}"})
-            cohorts_of_program_info = json.loads(cohorts_of_program_json.content)
-            cohorts_values = cohorts_of_program_info['resultset']
-            # Iterate over cohorts of the program
-            cohort_serial = 0
-            for cohort_index, cohort in enumerate(cohorts_values):
-                if cohort['is_active']:
-                    cohort_serial += 1
-                    cohorts_data.append({
-                        'cohort_serial': cohort_serial,
-                        'cohort_name': cohort['cohort'],
-                        'cohort_id': cohort['id']
-                    })
+        # Initialize cohorts list for each program
+        cohorts_data = []
+        # Fetch cohorts data for the current program
+        cohorts_of_program_json = requests.get(
+            f'https://upgapstg.brac.net/upg-participant-selection/api/v1/cohort/{program["id"]}',
+            headers={'Authorization': f"Bearer {access_token}"})
+        cohorts_of_program_info = json.loads(cohorts_of_program_json.content)
+        cohorts_values = cohorts_of_program_info['resultset']
+        # Iterate over cohorts of the program
+        cohort_serial = 0
+        for cohort_index, cohort in enumerate(cohorts_values):
+            if cohort['is_active']:
+                cohort_serial += 1
+                cohorts_data.append({
+                    'cohort_serial': cohort_serial,
+                    'cohort_name': cohort['cohort'],
+                    'cohort_id': cohort['id']
+                })
 
-            # Add program info with cohorts to program_dictionary
-            program_dictionary.append({
-                'Serial': index + 1,
-                'Program_name': program['program_name'],
-                'Program_id': program['id'],
-                'Cohorts': cohorts_data
-            })
+        # Add program info with cohorts to program_dictionary
+        program_dictionary.append({
+            'Serial': index + 1,
+            'Program_name': program['program_name'],
+            'Program_id': program['id'],
+            'Cohorts': cohorts_data
+        })
 
     # Print all programs
     print('***** All Programs *****:')
@@ -103,7 +106,7 @@ if login_json.status_code == 200:
         sys.exit(5)
 
     """main code stars here"""
-    """fetching all materials data"""
+    """fetching all enterprises data"""
     all_enterprise_json = requests.get(
         f"https://upgapstg.brac.net/upg-participant-selection/api/v1/enterprise/enterprise-wise-asset/all-enterprises",
         headers={'Authorization': f"Bearer {access_token}"})
@@ -142,13 +145,11 @@ if login_json.status_code == 200:
     child_category_map = {}
     for enterprise_category in all_enterprise_category_info:
         if enterprise_category['cohort_id'] == child_cohort_id:
-            # child_enterprise_category.append({enterprise_category['name']: enterprise_category['id']})
             child_category_map[enterprise_category['name']] = enterprise_category['id']
         if enterprise_category['cohort_id'] == parent_cohort_id:
-            # parent_enterprise_category.append({enterprise_category['id']: enterprise_category['name']})
             parent_category_map[enterprise_category['id']] = enterprise_category['name']
 
-    """adding material setap data"""
+    """adding enterprise setap data"""
     print('Updating material setup, please wait...')
     child_enterprise_updated = 0
 

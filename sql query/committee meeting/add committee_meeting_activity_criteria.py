@@ -1,19 +1,20 @@
-"""completed"""
-"""add action plan type setup from one program to another program"""
-"""Just select the program and cohort of source program and target program, you are good to go"""
-"""Remember, Parent refers to source program and child refers to target program"""
-"""mandatory: 1. delete all checklist from 'checklist' table using child cohort id.
-    demo: DELETE from checklist WHERE cohort_id='child cohort id';
-    
-    2. delete all action plan type from from 'action_plan_type' table
-    demo: DELETE from action_plan_type WHERE cohort_id=child_cohort_id;
+"""SELECT * from enterprise WHERE cohort_id=parent_cohort_id ALLOW FILTERING; """
+"""copy & paste on xl sheet & run the script"""
+"""
+SELECT * from committee_meeting_activity_criteria WHERE cohort_id=
+01d4ee50-dbc3-44f1-a7ab-d22c691bdfd8 and is_fixed=TRUE ALLOW FILTERING;
+
+DELETE from committee_meeting_activity_criteria WHERE cohort_id=01d4ee50-dbc3-44f1-a7ab-d22c691bdfd8;
 """
 
+import openpyxl
+import uuid
+import csv
 import requests
 import json
 import sys
 
-print('Welcome to UPG programme configuration!')
+print('Welcome to UPG programme configuration DB!')
 print('***** All Environments *****:')
 environment = {
     '1': ['Stage', 'https://upgapstg.brac.net'],
@@ -139,87 +140,44 @@ if login_json.status_code == 200:
     parent_cohort_name = selected_parent_cohort_info['cohort_name']
     parent_cohort_id = selected_parent_cohort_info['cohort_id']
 
-    """main code starts here"""
-    """delete child's existing action plan type"""
-    # we are using db to delete child data
-    child_current_action_plan_type_json = requests.get(
-        f'{base_url}/upg-enrollment/api/v1/action-plan/type/by-cohort/{child_cohort_id}',
-        headers={'Authorization': f"Bearer {access_token}"})
-    child_current_action_plan_type_info = json.loads(child_current_action_plan_type_json.content)
+    # Load the workbook
+    workbook = openpyxl.load_workbook('../Book1.xlsx')
 
-    if 'resultset' in child_current_action_plan_type_info:
-        child_current_action_plan_type = child_current_action_plan_type_info['resultset']
-        child_current_action_plan_type_length = len(child_current_action_plan_type)
-        print("No of action plan type(child): ", child_current_action_plan_type_length)
+    # Get all sheet names
+    sheet_names = workbook.sheetnames
 
-        current_deleted_action_plan_type = 0
-        for action_plan_type in child_current_action_plan_type:
-            action_plan_type_id = action_plan_type['id']
-            delete_current_hierarchy_request_json = requests.delete(
-                f'{base_url}/upg-enrollment/api/v1/action-plan/type/delete/{action_plan_type_id}/cohortId/{child_cohort_id}',
-                headers={'Authorization': f"Bearer {access_token}"})
-            delete_current_action_plan_type_request = json.loads(delete_current_hierarchy_request_json.content)
-            # print(f"check: {action_plan_type_id}")
-            if 'status' in delete_current_action_plan_type_request:
-                if delete_current_action_plan_type_request['status'] == "ok":
-                    current_deleted_action_plan_type += 1
-            else:
-                print(f"Error: Can't delete: id= {action_plan_type_id}")
+    all_data = []
+    query_list = []
 
-        if child_current_action_plan_type_length == current_deleted_action_plan_type:
-            print(f"All existing action plan type deleted. Total {current_deleted_action_plan_type} deleted.")
-        else:
-            print(f'{current_deleted_action_plan_type} out of {child_current_action_plan_type_length} action plan type has been deleted.')
-            print(f"Go to mandatory instruction above & follow that.")
-            sys.exit(10)
-    else:
-        print('Sorry,' + ' ' + child_current_action_plan_type_info['message'])
+    for sheet_name in sheet_names:
+        # Select the sheet by name
+        sheet = workbook[sheet_name]
+        for row in sheet.iter_rows(min_row=sheet.min_row, max_row=sheet.max_row, min_col=sheet.min_column, max_col=sheet.max_column):
+            row_data = [cell.value for cell in row]
+            all_data.append(row_data)
+        break
 
+    uuid_values = []
 
-    """fetching data from existing cohort to update our expected cohort"""
-    parent_cohort_id = selected_parent_cohort_info['cohort_id']
+    """INSERT INTO "upg"."committee_meeting_activity_criteria" ("cohort_id","is_fixed","id","branch_id",
+    "committee_id","created_at","created_by","is_active","name","schedule_id","updated_at","updated_by",
+    "village_id") VALUES (df90c5c9-7fb3-4633-99db-259b2ce82990,'true',028727c1-b20a-4331-b556-d8f2aaac19ea,
+    NULL,NULL,'2023-11-05 12:26:24.333+0000','cac6aebd-d346-4112-ab7c-b2701f66d90e','true',
+    'ইউপিজি সদস্যদের সমস্যাভিত্তিক আলোচ্য বিষয় নির্ধারণ ও সমস্যা সমাধানে আলোচনার মাধ্যমে সিদ্ধান্ত গ্রহণ',NULL,'2023-11-05 12:26:24.333+0000',
+    NULL,NULL);"""
 
-    parent_action_plan_type_json = requests.get(
-        f"{base_url}/upg-enrollment/api/v1/action-plan/type/by-cohort/{parent_cohort_id}",
-        headers={'Authorization': f"Bearer {access_token}"})
+    for data in all_data:
+        uuid_value = uuid.uuid1()
+        while uuid_value in uuid_values:
+            uuid_value = uuid.uuid1()
+        uuid_values.append(uuid_value)
+        query_list.append(f'INSERT INTO committee_meeting_activity_criteria ("cohort_id","is_fixed","id","branch_id",'
+        f'"committee_id","created_at","created_by","is_active","name","schedule_id","updated_at","updated_by",'
+        f'"village_id") VALUES '
+        f"({child_cohort_id}, {data[1]}, {uuid_value}, {data[3]}, {data[4]}, toTimestamp(now()), '{data[6]}', {data[7]}, '{data[8]}',"
+        f"{data[9]}, toTimestamp(now()), '{data[11]}', '{data[12]}');")
 
-    # deserialize a JSON formatted string into a Python object
-    parent_action_plan_type_info = json.loads(parent_action_plan_type_json.content)
-    # print(parent_action_plan_type_info)
+    for query in query_list:
+        print(query)
 
-    # hierarchy_info_length & success compare & check if all data loaded successfully
-    parent_action_plan_type_info_length = len(parent_action_plan_type_info['resultset'])
-    print("Total action plan type (parent): ", parent_action_plan_type_info_length)
-    action_plan_type_updated = 0
-
-    """need to update cohort_id & program_id"""
-    print('Updating info, please wait...')
-    for single_action_plan_type in parent_action_plan_type_info['resultset']:
-        data = {
-            "action_plan_types": [
-                {
-                    "action_plan_name": single_action_plan_type["action_plan_name"],
-                    "action_plan_type_tag": single_action_plan_type["action_plan_type_tag"],
-                    "cohort_id": child_cohort_id
-                }
-            ]
-        }
-
-        """adding designation hierarchy in child program"""
-        child_action_plan_type_update_request = requests.post(
-            f"{base_url}/upg-enrollment/api/v1/action-plan/type/add",
-            json=data, headers={'Authorization': f"Bearer {access_token}"})
-
-        if child_action_plan_type_update_request.status_code == 200:
-            action_plan_type_updated += 1
-        else:
-            print(f"Error: Cant update: {data}")
-
-    if parent_action_plan_type_info_length == action_plan_type_updated:
-        print(f'Everything updated! {action_plan_type_updated} out of {parent_action_plan_type_info_length}')
-    else:
-        print(f'{action_plan_type_updated} data updated out of {parent_action_plan_type_info_length}')
-
-else:
-    print('Error: Login failed. Try with correct credentials')
-
+    print(len(query_list))

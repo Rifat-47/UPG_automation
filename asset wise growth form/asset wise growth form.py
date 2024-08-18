@@ -36,7 +36,11 @@ if login_json.status_code == 200:
     program_data = requests.get('https://upgapstg.brac.net/upg-participant-selection/api/v1/program',
                                 headers={'Authorization': f"Bearer {access_token}"})
     program_info = json.loads(program_data.content)
-    all_program = program_info['resultset']
+    all_program_set = program_info['resultset']
+    all_program = []
+    for programme in all_program_set:
+        if programme['is_active']:
+            all_program.append(programme)
 
     # Initialize program dictionary
     program_dictionary = []
@@ -109,8 +113,6 @@ if login_json.status_code == 200:
     selected_child_cohort_info = selected_child_program_info['Cohorts'][selected_child_cohort - 1]  # Adjusting index
     child = selected_child_program_info['Program_name'] + " " + selected_child_cohort_info['cohort_name']
 
-    # print(parent)
-    # print(child)
     if parent == child:
         print("Program & cohort of parent and child is similar, can't advance further.")
         sys.exit(5)

@@ -1,29 +1,57 @@
 """Complete"""
 """add supervision checklist setup from one program to another program"""
 """Remember, Parent refers to source program and child refers to target program"""
-"""at first, action plan type setup is the pre-requirement for this task"""
+"""Mandatory: action plan type setup is the pre-requirement for this task
+    Need similar action plan type for both parent and child for best result.
+"""
 """Just select the program and cohort of source program and target program, you are good to go"""
 
 import requests
 import json
 import sys
 
+print('Welcome to UPG programme configuration!')
+print('***** All Environments *****:')
+environment = {
+    '1': ['Stage', 'https://upgapstg.brac.net'],
+    '2': ['Training', 'https://trainingupg.brac.net'],
+    '3': ['Production', 'https://upgbd.brac.net']
+}
+
+for env in environment:
+    print(env, environment[env][0])
+
+# print('$$$ Select Environment:')
+selected_environment = str(input('$$$ Select Environment: '))
+base_url = ''
+credential = {"email": "admin@brac.net", "password": "123456"}
+for env in environment:
+    if environment[selected_environment][0] == environment[env][0]:
+        base_url = environment[env][1]
+        if environment[env][0].upper() == 'PRODUCTION':
+            credential = {"email": "admin@brac.net", "password": "12345@#"}
+        break
+
 # getting access token by login
-login_json = requests.post('https://upgapstg.brac.net/upg-auth/api/v1/account/login',
-                          data ={"email": "admin@brac.net","password": "123456"})
+login_json = requests.post(f'{base_url}/upg-auth/api/v1/account/login',
+                          data = credential)
 
 if login_json.status_code == 200:
-    print('logged in successfully')
+    print('Success! Logged in successfully!!')
     # deserialize a JSON formatted string into a Python object
     login_data = json.loads(login_json.content)
 
     access_token = login_data['result']['access_token']
 
     # Fetch program and cohort data in a single API call
-    program_data = requests.get('https://upgapstg.brac.net/upg-participant-selection/api/v1/program',
+    program_data = requests.get(f'{base_url}/upg-participant-selection/api/v1/program',
                                 headers={'Authorization': f"Bearer {access_token}"})
     program_info = json.loads(program_data.content)
-    all_program = program_info['resultset']
+    all_program_set = program_info['resultset']
+    all_program = []
+    for programme in all_program_set:
+        if programme['is_active']:
+            all_program.append(programme)
 
     # Initialize program dictionary
     program_dictionary = []
@@ -35,19 +63,19 @@ if login_json.status_code == 200:
             cohorts_data = []
             # Fetch cohorts data for the current program
             cohorts_of_program_json = requests.get(
-                f'https://upgapstg.brac.net/upg-participant-selection/api/v1/cohort/{program["id"]}',
+                f'{base_url}/upg-participant-selection/api/v1/cohort/{program["id"]}',
                 headers={'Authorization': f"Bearer {access_token}"})
             cohorts_of_program_info = json.loads(cohorts_of_program_json.content)
             cohorts_values = cohorts_of_program_info['resultset']
             # Iterate over cohorts of the program
             cohort_serial = 0
-            for cohort_index, cohort in enumerate(cohorts_values):
-                if cohort['is_active']:
+            for single_cohort in cohorts_values:
+                if single_cohort['is_active']:
                     cohort_serial += 1
                     cohorts_data.append({
                         'cohort_serial': cohort_serial,
-                        'cohort_name': cohort['cohort'],
-                        'cohort_id': cohort['id']
+                        'cohort_name': single_cohort['cohort'],
+                        'cohort_id': single_cohort['id']
                     })
 
             # Add program info with cohorts to program_dictionary
@@ -66,7 +94,6 @@ if login_json.status_code == 200:
     # Select parent program and cohort
     selected_parent_program = int(input('$$$$$ Select Parent Program: '))
     selected_parent_program_info = program_dictionary[selected_parent_program - 1]  # Adjusting index
-    # print(selected_parent_program_info)
     print(f"Select Cohort of {selected_parent_program_info['Program_name']}: ")
 
     for cohort in selected_parent_program_info['Cohorts']:
@@ -77,7 +104,6 @@ if login_json.status_code == 200:
     selected_parent_cohort_info = selected_parent_program_info['Cohorts'][
         selected_parent_cohort - 1]  # Adjusting index
     parent = selected_parent_program_info['Program_name'] + ' ' + selected_parent_cohort_info['cohort_name']
-
 
     ##### Select child program and cohort
     print("*****Now, select Child program and cohort*****")
@@ -96,8 +122,6 @@ if login_json.status_code == 200:
     selected_child_cohort_info = selected_child_program_info['Cohorts'][selected_child_cohort - 1]  # Adjusting index
     child = selected_child_program_info['Program_name'] + " " + selected_child_cohort_info['cohort_name']
 
-    # print(parent)
-    # print(child)
     if parent == child:
         print("Program & cohort of parent and child is similar, can't advance further.")
         sys.exit(5)
@@ -114,7 +138,7 @@ if login_json.status_code == 200:
 
     """main code stars here"""
     """fetch & delete existing child data"""
-    child_supervision_checklist_json = requests.get(f'https://upgapstg.brac.net/upg-enrollment/api/v1/checklist/get-by-cohort/{child_cohort_id}',
+    child_supervision_checklist_json = requests.get(f'{base_url}/upg-enrollment/api/v1/checklist/get-by-cohort/{child_cohort_id}',
                                                     headers={'Authorization': f"Bearer {access_token}"})
     child_supervision_checklist_data = json.loads(child_supervision_checklist_json.content)
 
@@ -128,7 +152,7 @@ if login_json.status_code == 200:
             for child_checklist in child_supervision_checklist_info:
                 action_plan_type_id = child_checklist["action_plan_type_id"]
                 checklist_id = child_checklist['id']
-                delete_current_checklist_request = requests.delete(f'https://upgapstg.brac.net/upg-enrollment/api/v1/checklist/delete/{checklist_id}/cohort-id/{child_cohort_id}/action-plan-type-id/{action_plan_type_id}',
+                delete_current_checklist_request = requests.delete(f'{base_url}/upg-enrollment/api/v1/checklist/delete/{checklist_id}/cohort-id/{child_cohort_id}/action-plan-type-id/{action_plan_type_id}',
                                                                    headers={'Authorization': f"Bearer {access_token}"})
                 delete_current_checklist_data = json.loads(delete_current_checklist_request.content)
                 if delete_current_checklist_data['status'] == 'ok':
@@ -141,7 +165,7 @@ if login_json.status_code == 200:
 
     """fetch parent action plan type"""
     parent_action_plan_type_map = {}
-    parent_action_plan_type_json = requests.get(f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/by-cohort/{parent_cohort_id}',
+    parent_action_plan_type_json = requests.get(f'{base_url}/upg-enrollment/api/v1/action-plan/type/by-cohort/{parent_cohort_id}',
                                                 headers={'Authorization': f"Bearer {access_token}"})
     parent_action_plan_type_data = json.loads(parent_action_plan_type_json.content)
     parent_action_plan_type_info = parent_action_plan_type_data["resultset"]
@@ -150,14 +174,27 @@ if login_json.status_code == 200:
 
     """fetch child action plan type"""
     child_action_plan_type_map = {}
-    child_action_plan_type_json = requests.get(f'https://upgapstg.brac.net/upg-enrollment/api/v1/action-plan/type/by-cohort/{child_cohort_id}',
+    child_action_plan_type_json = requests.get(f'{base_url}/upg-enrollment/api/v1/action-plan/type/by-cohort/{child_cohort_id}',
                                                headers={'Authorization': f"Bearer {access_token}"})
     child_action_plan_type_data = json.loads(child_action_plan_type_json.content)
     child_action_plan_type_info = child_action_plan_type_data['resultset']
     for c_action_plan in child_action_plan_type_info:
         child_action_plan_type_map[c_action_plan['action_plan_name']] = c_action_plan['id']
 
-    final_action_type_map = {parent_action_plan_type_map[key]: child_action_plan_type_map[key] for key in parent_action_plan_type_map}
+    # final_action_type_map = {parent_action_plan_type_map[key]: child_action_plan_type_map[key] for key in parent_action_plan_type_map}
+    mapping_error = 0
+    final_action_type_map = {}
+    for key in parent_action_plan_type_map:
+        child_action_plan_type_value = child_action_plan_type_map.get(key)
+        if child_action_plan_type_value is not None:
+            final_action_type_map[parent_action_plan_type_map[key]] = child_action_plan_type_value
+        else:
+            print(f"Error: {key} is missing in child action plan type setup.")
+            mapping_error += 1
+
+    if mapping_error > 0:
+        print("Error: All data won't update due to mapping error. Check action plan type for both.")
+        sys.exit(10)
 
     print(f'Parent action plan type length: ', len(parent_action_plan_type_map))
     print(f'Child action plan type length: ', len(child_action_plan_type_map))
@@ -165,7 +202,7 @@ if login_json.status_code == 200:
 
     """fetch parent supervision checklist"""
     parent_supervision_checklist_json = requests.get(
-        f'https://upgapstg.brac.net/upg-enrollment/api/v1/checklist/get-by-cohort/{parent_cohort_id}',
+        f'{base_url}/upg-enrollment/api/v1/checklist/get-by-cohort/{parent_cohort_id}',
         headers={'Authorization': f"Bearer {access_token}"})
     parent_supervision_checklist_data = json.loads(parent_supervision_checklist_json.content)
 
@@ -179,27 +216,30 @@ if login_json.status_code == 200:
         if parent_supervision_checklist_length > 0:
             print('Updating supervision checklist field setup, please wait...')
             for parent_checklist in parent_supervision_checklist_info:
-                data = {
-                    "list": [
-                        {
-                            "cohort_id": child_cohort_id,
-                            "form_id": parent_checklist["form_id"],
-                            "action_plan_type_id": final_action_type_map[parent_checklist["action_plan_type_id"]],
-                            "action_plan_type_name": parent_checklist["action_plan_type_name"],
-                            "role_id": parent_checklist["role_id"],
-                            "role_name": parent_checklist["role_name"],
-                            "checklist": parent_checklist["checklist"]
-                        }
-                    ]
-                }
+                if parent_checklist["action_plan_type_id"] in final_action_type_map:
+                    data = {
+                        "list": [
+                            {
+                                "cohort_id": child_cohort_id,
+                                "form_id": parent_checklist["form_id"],
+                                "action_plan_type_id": final_action_type_map[parent_checklist["action_plan_type_id"]],
+                                "action_plan_type_name": parent_checklist["action_plan_type_name"],
+                                "role_id": parent_checklist["role_id"],
+                                "role_name": parent_checklist["role_name"],
+                                "checklist": parent_checklist["checklist"]
+                            }
+                        ]
+                    }
 
-                """adding supervision checklist in child program"""
-                child_supervision_checklist_update_request = requests.post(f'https://upgapstg.brac.net/upg-enrollment/api/v1/checklist/submit',
-                                json=data, headers={'Authorization': f"Bearer {access_token}"})
-                if child_supervision_checklist_update_request.status_code == 200:
-                    child_supervision_checklist_updated += 1
+                    """adding supervision checklist in child program"""
+                    child_supervision_checklist_update_request = requests.post(f'{base_url}/upg-enrollment/api/v1/checklist/submit',
+                                    json=data, headers={'Authorization': f"Bearer {access_token}"})
+                    if child_supervision_checklist_update_request.status_code == 200:
+                        child_supervision_checklist_updated += 1
+                    else:
+                        print(data)
                 else:
-                    print(data)
+                    print(f"Error: check {parent_checklist["action_plan_type_id"]}")
 
     if parent_supervision_checklist_length == child_supervision_checklist_updated:
         print(f'Everything updated! {child_supervision_checklist_updated} out of {parent_supervision_checklist_length}')

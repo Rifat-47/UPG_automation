@@ -1,4 +1,4 @@
-"""add asset & input mapping from one program to another program"""
+"""add reasons setup from one program to another program"""
 """Just select the program and cohort of source program and target program, you are good to go"""
 """Remember, Parent refers to source program and child refers to target program"""
 
@@ -6,22 +6,48 @@ import requests
 import json
 import sys
 
+print('Welcome to UPG programme configuration!')
+print('***** All Environments *****:')
+environment = {
+    '1': ['Stage', 'https://upgapstg.brac.net'],
+    '2': ['Training', 'https://trainingupg.brac.net'],
+    '3': ['Production', 'https://upgbd.brac.net']
+}
+
+for env in environment:
+    print(env, environment[env][0])
+
+# print('$$$ Select Environment:')
+selected_environment = str(input('$$$ Select Environment: '))
+base_url = ''
+credential = {"email": "admin@brac.net", "password": "123456"}
+for env in environment:
+    if environment[selected_environment][0] == environment[env][0]:
+        base_url = environment[env][1]
+        if environment[env][0].upper() == 'PRODUCTION':
+            credential = {"email": "admin@brac.net", "password": "12345@#"}
+        break
+
 # getting access token by login
-login_json = requests.post('https://upgapstg.brac.net/upg-auth/api/v1/account/login',
-                          data ={"email": "admin@brac.net","password": "123456"})
+login_json = requests.post(f'{base_url}/upg-auth/api/v1/account/login',
+                          data = credential)
 
 if login_json.status_code == 200:
-    print('logged in successfully')
+    print('Success! Logged in successfully!!')
     # deserialize a JSON formatted string into a Python object
     login_data = json.loads(login_json.content)
 
     access_token = login_data['result']['access_token']
 
     # Fetch program and cohort data in a single API call
-    program_data = requests.get('https://upgapstg.brac.net/upg-participant-selection/api/v1/program',
+    program_data = requests.get(f'{base_url}/upg-participant-selection/api/v1/program',
                                 headers={'Authorization': f"Bearer {access_token}"})
     program_info = json.loads(program_data.content)
-    all_program = program_info['resultset']
+    all_program_set = program_info['resultset']
+    all_program = []
+    for programme in all_program_set:
+        if programme['is_active']:
+            all_program.append(programme)
 
     # Initialize program dictionary
     program_dictionary = []
@@ -33,19 +59,19 @@ if login_json.status_code == 200:
             cohorts_data = []
             # Fetch cohorts data for the current program
             cohorts_of_program_json = requests.get(
-                f'https://upgapstg.brac.net/upg-participant-selection/api/v1/cohort/{program["id"]}',
+                f'{base_url}/upg-participant-selection/api/v1/cohort/{program["id"]}',
                 headers={'Authorization': f"Bearer {access_token}"})
             cohorts_of_program_info = json.loads(cohorts_of_program_json.content)
             cohorts_values = cohorts_of_program_info['resultset']
             # Iterate over cohorts of the program
             cohort_serial = 0
-            for cohort_index, cohort in enumerate(cohorts_values):
-                if cohort['is_active']:
+            for single_cohort in cohorts_values:
+                if single_cohort['is_active']:
                     cohort_serial += 1
                     cohorts_data.append({
                         'cohort_serial': cohort_serial,
-                        'cohort_name': cohort['cohort'],
-                        'cohort_id': cohort['id']
+                        'cohort_name': single_cohort['cohort'],
+                        'cohort_id': single_cohort['id']
                     })
 
             # Add program info with cohorts to program_dictionary
@@ -64,7 +90,6 @@ if login_json.status_code == 200:
     # Select parent program and cohort
     selected_parent_program = int(input('$$$$$ Select Parent Program: '))
     selected_parent_program_info = program_dictionary[selected_parent_program - 1]  # Adjusting index
-    # print(selected_parent_program_info)
     print(f"Select Cohort of {selected_parent_program_info['Program_name']}: ")
 
     for cohort in selected_parent_program_info['Cohorts']:
@@ -75,7 +100,6 @@ if login_json.status_code == 200:
     selected_parent_cohort_info = selected_parent_program_info['Cohorts'][
         selected_parent_cohort - 1]  # Adjusting index
     parent = selected_parent_program_info['Program_name'] + ' ' + selected_parent_cohort_info['cohort_name']
-
 
     ##### Select child program and cohort
     print("*****Now, select Child program and cohort*****")
@@ -93,18 +117,25 @@ if login_json.status_code == 200:
     # Get selected child cohort info
     selected_child_cohort_info = selected_child_program_info['Cohorts'][selected_child_cohort - 1]  # Adjusting index
     child = selected_child_program_info['Program_name'] + " " + selected_child_cohort_info['cohort_name']
-    print(selected_child_cohort_info)
 
-    # print(parent)
-    # print(child)
     if parent == child:
         print("Program & cohort of parent and child is similar, can't advance further.")
         sys.exit(5)
 
+    child_program_name = selected_child_program_info['Program_name']
+    child_program_id = selected_child_program_info['Program_id']
+    child_cohort_name = selected_child_cohort_info['cohort_name']
+    child_cohort_id = selected_child_cohort_info['cohort_id']
+
+    parent_program_name = selected_parent_program_info['Program_name']
+    parent_program_id = selected_parent_program_info['Program_id']
+    parent_cohort_name = selected_parent_cohort_info['cohort_name']
+    parent_cohort_id = selected_parent_cohort_info['cohort_id']
+
     """stars here"""
     """fetching all inputs data"""
     all_reason_setup_json = requests.get(
-        f"https://upgapstg.brac.net/upg-participant-selection/api/v1/reason/reasons/all",
+        f"{base_url}/upg-participant-selection/api/v1/reason/reasons/all",
         headers={'Authorization': f"Bearer {access_token}"})
 
     all_reason_setup_data = json.loads(all_reason_setup_json.content)
@@ -114,18 +145,11 @@ if login_json.status_code == 200:
 
     current_child_reason_setup = []
     parent_reason_setup = []
-    child_program_name = selected_child_program_info['Program_name']
-    child_program_id = selected_child_program_info['Program_id']
-    child_program_cohort = selected_child_cohort_info['cohort_name']
-    child_cohort_id = selected_child_cohort_info['cohort_id']
-    parent_program_name = selected_parent_program_info['Program_name']
 
-    # print(selected_parent_program_info)
-    parent_program_cohort = selected_parent_cohort_info['cohort_name']
     for inputx in all_reason_setup_info:
-        if inputx["program_name"] == child_program_name and inputx['cohort_name'] == child_program_cohort:
+        if inputx["cohort_id"] == child_cohort_id:
             current_child_reason_setup.append(inputx)
-        if inputx["program_name"] == parent_program_name and inputx['cohort_name'] == parent_program_cohort:
+        if inputx["cohort_id"] == parent_cohort_id:
             parent_reason_setup.append(inputx)
 
     print('Parent reason setup: ', len(parent_reason_setup))
@@ -136,7 +160,7 @@ if login_json.status_code == 200:
     """deactivating the cohort"""
     # getting all cohorts of child program
     child_program_cohorts_request_json = requests.get(
-        f"https://upgapstg.brac.net/upg-participant-selection/api/v1/cohort/{child_program_id}",
+        f"{base_url}/upg-participant-selection/api/v1/cohort/{child_program_id}",
         headers={'Authorization': f"Bearer {access_token}"})
     child_program_cohorts_request_info = json.loads(child_program_cohorts_request_json.content)
     child_program_cohorts_data = child_program_cohorts_request_info['resultset']
@@ -150,7 +174,7 @@ if login_json.status_code == 200:
     # getting child cohort info
     data_for_activate_deactivate_cohort['slNo'] = 1
     data_for_activate_deactivate_cohort['is_active'] = False
-    deactivate_cohort_request_json = requests.patch(f"https://upgapstg.brac.net/upg-participant-selection/api/v1/cohort/update/{child_cohort_id}",
+    deactivate_cohort_request_json = requests.patch(f"{base_url}/upg-participant-selection/api/v1/cohort/update/{child_cohort_id}",
                                                     json= data_for_activate_deactivate_cohort,
                                                     headers={'Authorization': f"Bearer {access_token}"})
     deactivate_cohort_request = json.loads(deactivate_cohort_request_json.content)
@@ -161,15 +185,17 @@ if login_json.status_code == 200:
         print('Cohort is deactivated...')
 
     """delete child's existing reason setup"""
+    print("Deleting existing reason setup, please wait...")
     child_deleted_reason_setup = 0
     for child_reason in current_child_reason_setup:
         reason_setup_id = child_reason['id']
-        delete_reason_setup_request_json = requests.delete(f"https://upgapstg.brac.net/upg-participant-selection/api/v1/reason/delete/{child_cohort_id}/{reason_setup_id}",
+        delete_reason_setup_request_json = requests.delete(f"{base_url}/upg-participant-selection/api/v1/reason/delete/{child_cohort_id}/{reason_setup_id}",
                                                            headers={'Authorization': f"Bearer {access_token}"})
         delete_reason_setup_request = json.loads(delete_reason_setup_request_json.content)
-        # print(delete_reason_setup_request)
         if delete_reason_setup_request['result']['is_success']:
             child_deleted_reason_setup += 1
+        else:
+            print(f"Error: Can't delete, child cohort {child_cohort_id} & reason setup id {reason_setup_id}")
 
     if len(current_child_reason_setup) == child_deleted_reason_setup:
         print(f"All existing reason setup deleted. Total {child_deleted_reason_setup} deleted.")
@@ -180,7 +206,7 @@ if login_json.status_code == 200:
     """activating the cohort again"""
     data_for_activate_deactivate_cohort['is_active'] = True
     activate_cohort_request_json = requests.patch(
-        f"https://upgapstg.brac.net/upg-participant-selection/api/v1/cohort/update/{child_cohort_id}",
+        f"{base_url}/upg-participant-selection/api/v1/cohort/update/{child_cohort_id}",
         json=data_for_activate_deactivate_cohort,
         headers={'Authorization': f"Bearer {access_token}"})
     activate_cohort_request = json.loads(activate_cohort_request_json.content)
@@ -191,7 +217,7 @@ if login_json.status_code == 200:
         print('Cohort is activated...')
 
     """fetching all reason type"""
-    all_reason_type_json = requests.get(f'https://upgapstg.brac.net/upg-participant-selection/api/v1/reason/reason-type/all',
+    all_reason_type_json = requests.get(f'{base_url}/upg-participant-selection/api/v1/reason/reason-type/all',
                                         headers={'Authorization': f"Bearer {access_token}"})
     all_reason_type_info = json.loads(all_reason_type_json.content)
     all_reason_type_data = all_reason_type_info['resultset']
@@ -208,32 +234,31 @@ if login_json.status_code == 200:
                 break
         if reason_type_id == '':
             print(f'Error: Type Id not found for "{parent_reason["type"]}"')
-            break
+            continue
 
         data = {
             "name": parent_reason['name'],
             "cohort_id": child_cohort_id,
             "program_id": child_program_id,
             "type_id": reason_type_id,
-            "cohort_name": child_program_cohort,
+            "cohort_name": child_cohort_name,
             "program_name": child_program_name,
             "type": parent_reason["type"]
         }
         """adding input map in child program"""
-        child_reason_setup_update_request = requests.post('https://upgapstg.brac.net/upg-participant-selection/api/v1/reason/create',
+        child_reason_setup_update_request = requests.post(f'{base_url}/upg-participant-selection/api/v1/reason/create',
                                                           json=data, headers={'Authorization': f"Bearer {access_token}"})
         if child_reason_setup_update_request.status_code == 201:
             child_reason_setup_updated += 1
         else:
-            print(data)
+            print(f"Error: Can't update: {data}")
 
     if len(parent_reason_setup) == child_reason_setup_updated:
         print(f'Everything updated! {child_reason_setup_updated} out of {len(parent_reason_setup)}')
     else:
         print(f'{child_reason_setup_updated} data updated out of {len(parent_reason_setup)}')
-
 else:
-    print('Login failed. Try with correct credentials')
+    print('Error: Login failed. Try with correct credentials')
 
 
 """

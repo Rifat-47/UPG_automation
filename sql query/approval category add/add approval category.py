@@ -11,7 +11,7 @@ approval hierarchy configuration"""
 import openpyxl
 
 # Load the workbook
-workbook = openpyxl.load_workbook('Book1.xlsx')
+workbook = openpyxl.load_workbook('../Book1.xlsx')
 
 # Get all sheet names
 sheet_names = workbook.sheetnames

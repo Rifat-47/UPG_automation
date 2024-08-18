@@ -1,6 +1,7 @@
 """add input setup from one program to another program"""
 """Just select the program and cohort of source program and target program, you are good to go"""
 """Remember, Parent refers to source program and child refers to target program"""
+"""Mandatory: Input category is mandatory for input setup"""
 
 import requests
 import json
@@ -21,7 +22,11 @@ if login_json.status_code == 200:
     program_data = requests.get('https://upgapstg.brac.net/upg-participant-selection/api/v1/program',
                                 headers={'Authorization': f"Bearer {access_token}"})
     program_info = json.loads(program_data.content)
-    all_program = program_info['resultset']
+    all_program_set = program_info['resultset']
+    all_program = []
+    for programme in all_program_set:
+        if programme['is_active']:
+            all_program.append(programme)
 
     # Initialize program dictionary
     program_dictionary = []
@@ -127,9 +132,9 @@ if login_json.status_code == 200:
     # print(selected_parent_program_info)
     # parent_program_cohort = selected_parent_cohort_info['cohort_name']
     for inputx in all_inputs_info:
-        if inputx["program_name"] == child_program_name and inputx['cohort_name'] == child_cohort_name:
+        if inputx["cohort_id"] == child_cohort_id:
             current_child_inputs.append(inputx)
-        if inputx["program_name"] == parent_program_name and inputx['cohort_name'] == parent_cohort_name:
+        if inputx["cohort_id"] == parent_cohort_id:
             parent_inputs.append(inputx)
 
     print('Parent inputs: ', len(parent_inputs))

@@ -19,7 +19,6 @@ environment = {
 for env in environment:
     print(env, environment[env][0])
 
-# print('$$$ Select Environment:')
 selected_environment = str(input('$$$ Select Environment: '))
 base_url = ''
 credential = {"email": "admin@brac.net", "password": "123456"}
@@ -101,7 +100,7 @@ if login_json.status_code == 200:
         print(program['Serial'], ': ', program['Program_name'])
 
     # Input parent and child program numbers
-    parent_program = int(input('Enter Parent Program No (Interger Value): '))
+    parent_program = int(input('Enter Parent Program No (Integer Value): '))
     print('great!')
     child_program = int(input('Enter Child Program No (Integer Value): '))
 
@@ -126,16 +125,32 @@ if login_json.status_code == 200:
     # Access point management for each role
     role_count = 0
     finished_roles = []
+
+    f"""
+    {base_url}/upg-auth/api/v1/roles/80c8e4e4-e549-4a59-8ee2-14a30508e41e/acl/84fa60af-0dfc-49af-9f56-c5949b50d040
+    """
     for role in all_roles:
         role_id = role['id']
         print(f'Role Name = "{role['role_name']}", Role Id = {role_id}')
-
+        child_data_deleted = 0
         # Get access control info for child program
         child_access_control_data = requests.get(f"{base_url}/upg-auth/api/v1/roles/{role_id}/acl/program/{child_program_id}",
                                                  headers={'Authorization': f"Bearer {access_token}"})
         child_access_control_info = json.loads(child_access_control_data.content)
-        child_all_info = child_access_control_info['resultset']
+        child_all_info = child_access_control_info.get('resultset')
         print(f"======= {child_program_name} info for '{role['role_name']}': {len(child_all_info)} =======")
+        if len(child_all_info) > 0:
+            for control_data in child_all_info:
+                delete_request = requests.delete(f"{base_url}/upg-auth/api/v1/roles/{role_id}/acl/{control_data['id']}",
+                                                 headers={'Authorization': f"Bearer {access_token}"})
+                # print(delete_request.status_code)
+                if delete_request.status_code == 200:
+                    child_data_deleted += 1
+                else:
+                    print(f"Error: , rode id {role_id} & id {control_data}")
+
+            if len(child_all_info) == child_data_deleted:
+                print(f"All access control data deleted for '{role['role_name']}', total {child_data_deleted}.")
 
         # Get access control info for parent program
         parent_access_control_data = requests.get(f"{base_url}/upg-auth/api/v1/roles/{role_id}/acl/program/{parent_program_id}",
@@ -157,20 +172,20 @@ if login_json.status_code == 200:
         # Process access control info
         count = 0
         for parent_info in parent_all_info:
-            data_for_edit = {
-                "role_id": role_id,
-                "role_name": parent_info["role_name"],
-                "program_id": child_program_id,
-                "menu_id": parent_info["menu_id"],
-                "menu_name": parent_info["menu_name"],
-                "menu_order": parent_info["menu_order"],
-                "submenu_id": parent_info["submenu_id"],
-                "submenu_name": parent_info["submenu_name"],
-                "submenu_order": parent_info["submenu_order"],
-                "actions": parent_info["actions"],
-                "is_active": parent_info["is_active"]
-            }
-            child_request_body_for_edit = json.dumps(data_for_edit)
+            # data_for_edit = {
+            #     "role_id": role_id,
+            #     "role_name": parent_info["role_name"],
+            #     "program_id": child_program_id,
+            #     "menu_id": parent_info["menu_id"],
+            #     "menu_name": parent_info["menu_name"],
+            #     "menu_order": parent_info["menu_order"],
+            #     "submenu_id": parent_info["submenu_id"],
+            #     "submenu_name": parent_info["submenu_name"],
+            #     "submenu_order": parent_info["submenu_order"],
+            #     "actions": parent_info["actions"],
+            #     "is_active": parent_info["is_active"]
+            # }
+            # child_request_body_for_edit = json.dumps(data_for_edit)
 
             data_for_add = {
                 "list" : [
@@ -192,25 +207,24 @@ if login_json.status_code == 200:
             child_request_body_for_add = json.dumps(data_for_add)
 
             child_info_id_tobe_updated = ''
-            child_info_id_found = False
+            # child_info_id_found = False
 
-            for child_info in child_all_info:
-                if child_info['menu_id'] == parent_info["menu_id"] and child_info['submenu_id'] == parent_info["submenu_id"]:
-                    child_info_id_tobe_updated = child_info['id']
-                    child_info_id_found = True
-                    break
-
-            if child_info_id_found:
-                # print('data updating')
-                update_request = requests.put(f'{base_url}/upg-auth/api/v1/roles/{role_id}/acl/{child_info_id_tobe_updated}',
-                                              data= child_request_body_for_edit,
-                                              headers= {'Authorization': f"Bearer {access_token}", 'Content-Type': 'application/json'})
-            else:
-                update_request = requests.post(f'{base_url}/upg-auth/api/v1/roles/{role_id}/acl',
-                                               data= child_request_body_for_add,
-                                               headers={'Authorization': f"Bearer {access_token}", 'Content-Type': 'application/json'})
+            # for child_info in child_all_info:
+            #     if child_info['menu_id'] == parent_info["menu_id"] and child_info['submenu_id'] == parent_info["submenu_id"]:
+            #         child_info_id_tobe_updated = child_info['id']
+            #         child_info_id_found = True
+            #         break
+            #
+            # if child_info_id_found:
+            #     # print('data updating')
+            #     update_request = requests.put(f'{base_url}/upg-auth/api/v1/roles/{role_id}/acl/{child_info_id_tobe_updated}',
+            #                                   data= child_request_body_for_edit,
+            #                                   headers= {'Authorization': f"Bearer {access_token}", 'Content-Type': 'application/json'})
+            # else:
+            update_request = requests.post(f'{base_url}/upg-auth/api/v1/roles/{role_id}/acl',
+                                           data= child_request_body_for_add,
+                                           headers={'Authorization': f"Bearer {access_token}", 'Content-Type': 'application/json'})
             update_request_info = json.loads(update_request.content)
-            # print(update_request_info)
             if update_request_info['status'] == "ok":
                 count += 1
             else:

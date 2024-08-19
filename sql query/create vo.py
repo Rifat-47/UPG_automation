@@ -14,16 +14,16 @@ branch_codes = [
     # '0379',
     # '0222',
     # '1493'
-    '0010'
+    '111731'
 ]
 
-# stg random vo 1997
+# stg random vo 2000-2003
 # train 46548
-random_vo_no = 1997
-total_vo = 1
-member_in_vo = 5
+random_vo_no = 2000
+total_vo = 4
+member_in_vo = 4
 
-def generate_random_name(length=5):
+def generate_random_name(length=6):
     letters = string.ascii_uppercase
     return ''.join(random.choice(letters) for _ in range(length))
 

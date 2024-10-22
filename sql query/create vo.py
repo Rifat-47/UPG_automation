@@ -2,25 +2,13 @@ import random
 import string
 
 branch_codes = [
-    # '0238',
-    # '1336',
-    # '0556',
-    # '0252',
-    # '0528',
-    # '1488',
-    # '0450',
-    # '0208',
-    # '0223',
-    # '0379',
-    # '0222',
-    # '1493'
-    '111731'
+    '0315'
 ]
 
-# stg random vo 2000-2003
-# train 46548
-random_vo_no = 2000
-total_vo = 4
+# stg random vo 3015
+# train 46593 - 46596
+random_vo_no = 3015
+total_vo = 1
 member_in_vo = 4
 
 def generate_random_name(length=6):
@@ -33,7 +21,7 @@ for branch_code in branch_codes:
     for i in range(total_vo):
         vo_name = generate_random_name()
         vo = f"""INSERT INTO erp_vo ("branch_code", "org_no", "vo_id", "vo_name", "collection_date", "branch_id", "created", "created_by", "group_name", "group_status_id", "is_active", "next_collection_date", "po_name", "po_pin", "updated", "updated_at", "updated_by")
-            VALUES ('{branch_code}', '{random_vo_no}', '{random_vo_no}', '{vo_name}', '2024-05-05 00:00:00.000+0000', '333', NULL, NULL, 'UPG Group-02', '1', true, NULL, 'Shefali Begum', '189297', NULL, '2022-03-10 15:10:34', NULL);"""
+            VALUES ('{branch_code}', '{random_vo_no}', '{random_vo_no}', '{vo_name}', '2024-04-04 00:00:00.000+0000', '333', NULL, NULL, 'UPG Group-02', '1', true, NULL, 'Shefali Begum', '189297', NULL, '2022-03-10 15:10:34', NULL);"""
         queries.append(vo)
 
         for j in range(member_in_vo):

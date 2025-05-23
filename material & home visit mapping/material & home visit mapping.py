@@ -11,8 +11,9 @@ import sys
 print('Welcome to UPG programme configuration!')
 print('***** All Environments *****:')
 environment = {
-    '1': ['Stage', 'https://upgapstg.brac.net'],
-    '2': ['Training', 'https://trainingupg.brac.net'],
+    '1': ['Training', 'https://trainingupg.brac.net'],
+    '2': ['Stage', 'https://upgapstg.brac.net'],
+    # '2': ['Training', 'https://trainingupg.brac.net'],
     '3': ['Production', 'https://upgbd.brac.net']
 }
 
@@ -28,11 +29,16 @@ for env in environment:
         base_url = environment[env][1]
         if environment[env][0].upper() == 'PRODUCTION':
             credential = {"email": "admin@brac.net", "password": "12345@#"}
+        # elif environment[env][0].upper() == 'TRAINING':
+        #     credential = {"email": "admin@brac.net", "password": "123456"}
         break
 
 # getting access token by login
 login_json = requests.post(f'{base_url}/upg-auth/api/v1/account/login',
                           data = credential)
+print(credential)
+print(f'{base_url}/upg-auth/api/v1/account/login')
+print(login_json.status_code)
 
 if login_json.status_code == 200:
     print('Success! Logged in successfully!!')
